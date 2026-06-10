@@ -31,7 +31,8 @@ struct AddServerView: View {
       #endif
       .toolbar {
         ToolbarItem(placement: .cancellationAction) {
-          Button("Cancel") { dismiss() }
+          Button("Cancel", systemImage: "xmark") { dismiss() }
+            .labelStyle(.iconOnly)
         }
       }
     }
