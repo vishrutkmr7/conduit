@@ -3,6 +3,7 @@ import SwiftUI
 struct ContentView: View {
   @Environment(MCPServerStore.self) private var store
   @State private var isAddingServer = false
+  @State private var quickAddServer: KnownServer?
   @State private var layout: ServerLayout = .grid
 
   private let columns = [GridItem(.adaptive(minimum: 160), spacing: 16, alignment: .top)]
@@ -10,29 +11,35 @@ struct ContentView: View {
   var body: some View {
     NavigationStack {
       ScrollView {
-        if store.servers.isEmpty {
-          emptyState
-        } else if layout == .grid {
-          LazyVGrid(columns: columns, alignment: .leading, spacing: 16) {
-            ForEach(store.servers) { server in
-              NavigationLink(value: server) {
-                ServerCard(server: server, health: store.health(for: server))
+        VStack(spacing: 20) {
+          FeaturedServersStrip { quickAddServer = $0 }
+            .padding(.top, 8)
+
+          if store.servers.isEmpty {
+            emptyState
+          } else if layout == .grid {
+            LazyVGrid(columns: columns, alignment: .leading, spacing: 16) {
+              ForEach(store.servers) { server in
+                NavigationLink(value: server) {
+                  ServerCard(server: server, health: store.health(for: server), toolCount: store.toolCount(for: server))
+                }
+                .buttonStyle(.plain)
               }
-              .buttonStyle(.plain)
             }
-          }
-          .padding()
-        } else {
-          LazyVStack(spacing: 12) {
-            ForEach(store.servers) { server in
-              NavigationLink(value: server) {
-                ServerRow(server: server, health: store.health(for: server))
+            .padding(.horizontal)
+          } else {
+            LazyVStack(spacing: 12) {
+              ForEach(store.servers) { server in
+                NavigationLink(value: server) {
+                  ServerRow(server: server, health: store.health(for: server), toolCount: store.toolCount(for: server))
+                }
+                .buttonStyle(.plain)
               }
-              .buttonStyle(.plain)
             }
+            .padding(.horizontal)
           }
-          .padding()
         }
+        .padding(.bottom)
       }
       .navigationTitle("Conduit")
       .refreshable { await store.refreshHealth() }
@@ -59,6 +66,18 @@ struct ContentView: View {
       .sheet(isPresented: $isAddingServer) {
         AddServerView()
       }
+      .sheet(item: $quickAddServer) { known in
+        NavigationStack {
+          ServerSetupView(known: known) { quickAddServer = nil }
+            .toolbar {
+              ToolbarItem(placement: .cancellationAction) {
+                Button("Cancel", systemImage: "xmark") { quickAddServer = nil }
+                  .labelStyle(.iconOnly)
+                  .tint(.accentColor)
+              }
+            }
+        }
+      }
     }
   }
 
@@ -75,7 +94,7 @@ struct ContentView: View {
       .controlSize(.large)
       .tint(.teal)
     }
-    .padding(.top, 80)
+    .padding(.top, 48)
   }
 }
 

@@ -10,21 +10,25 @@ struct ServerGlance: Identifiable {
   let symbol: String
   let tint: String
   let health: ServerHealth
+  /// Tools advertised on the last successful connection, when known.
+  let toolCount: Int?
 
-  init(server: MCPServer, health: ServerHealth) {
+  init(server: MCPServer, health: ServerHealth, toolCount: Int?) {
     self.id = server.id
     self.name = server.name
     self.symbol = server.symbol
     self.tint = server.tint
     self.health = health
+    self.toolCount = toolCount
   }
 
-  init(id: UUID = UUID(), name: String, symbol: String, tint: String, health: ServerHealth) {
+  init(id: UUID = UUID(), name: String, symbol: String, tint: String, health: ServerHealth, toolCount: Int? = nil) {
     self.id = id
     self.name = name
     self.symbol = symbol
     self.tint = tint
     self.health = health
+    self.toolCount = toolCount
   }
 }
 
@@ -34,10 +38,12 @@ struct ServerSnapshot: TimelineEntry {
 
   var connected: Int { servers.filter { $0.health == .connected }.count }
   var hasIssues: Bool { servers.contains { $0.health == .error } }
+  /// Total tools across all connected servers, for the at-a-glance summary.
+  var totalTools: Int { servers.compactMap { $0.health == .connected ? $0.toolCount : nil }.reduce(0, +) }
 
   static let sample = ServerSnapshot(date: .now, servers: [
-    ServerGlance(name: "GitHub", symbol: "chevron.left.forwardslash.chevron.right", tint: "purple", health: .connected),
-    ServerGlance(name: "Linear", symbol: "checklist", tint: "indigo", health: .connected),
+    ServerGlance(name: "GitHub", symbol: "chevron.left.forwardslash.chevron.right", tint: "purple", health: .connected, toolCount: 24),
+    ServerGlance(name: "Linear", symbol: "checklist", tint: "indigo", health: .connected, toolCount: 18),
     ServerGlance(name: "Notion", symbol: "doc.richtext", tint: "gray", health: .needsAuth),
     ServerGlance(name: "Sentry", symbol: "ladybug", tint: "orange", health: .error)
   ])
@@ -58,7 +64,7 @@ struct ConduitProvider: TimelineProvider {
   private func current() -> ServerSnapshot {
     let health = ServerHealthStore.load()
     let servers = MCPServerStorage.load().map {
-      ServerGlance(server: $0, health: health[$0.id]?.health ?? .unknown)
+      ServerGlance(server: $0, health: health[$0.id]?.health ?? .unknown, toolCount: health[$0.id]?.toolCount)
     }
     return ServerSnapshot(date: .now, servers: servers)
   }
@@ -164,10 +170,17 @@ struct ConduitWidgetView: View {
       } else {
         Text("\(entry.connected) of \(entry.servers.count) connected")
           .font(.caption2)
-        Text(entry.servers.prefix(3).map(\.name).joined(separator: ", "))
-          .font(.caption2)
-          .foregroundStyle(.secondary)
-          .lineLimit(1)
+        if entry.totalTools > 0 {
+          Text("\(entry.totalTools) tools available")
+            .font(.caption2)
+            .foregroundStyle(.secondary)
+            .lineLimit(1)
+        } else {
+          Text(entry.servers.prefix(3).map(\.name).joined(separator: ", "))
+            .font(.caption2)
+            .foregroundStyle(.secondary)
+            .lineLimit(1)
+        }
       }
     }
     .frame(maxWidth: .infinity, alignment: .leading)
@@ -228,13 +241,21 @@ private struct ServerGrid: View {
     VStack(spacing: 4) {
       WidgetServerTile(glance: server, size: tileSize)
       if showsLabels {
-        Text(server.name)
-          .font(.caption2)
-          .lineLimit(1)
-          .frame(maxWidth: .infinity)
+        VStack(spacing: 1) {
+          Text(server.name)
+            .font(.caption2)
+            .lineLimit(1)
+          if server.health == .connected, let toolCount = server.toolCount {
+            Text("\(toolCount) tools")
+              .font(.system(size: 9))
+              .foregroundStyle(.secondary)
+              .lineLimit(1)
+          }
+        }
+        .frame(maxWidth: .infinity)
       }
     }
-    .frame(height: showsLabels ? tileSize + 18 : tileSize)
+    .frame(height: showsLabels ? tileSize + 30 : tileSize)
   }
 
   private var overflowTile: some View {
@@ -251,7 +272,7 @@ private struct ServerGrid: View {
         Text("more").font(.caption2).foregroundStyle(.secondary)
       }
     }
-    .frame(height: showsLabels ? tileSize + 18 : tileSize)
+    .frame(height: showsLabels ? tileSize + 30 : tileSize)
   }
 }
 

@@ -1,12 +1,13 @@
 import SwiftUI
 
 /// Uniform tile height so every card in the grid lines up.
-let serverCardHeight: CGFloat = 132
+let serverCardHeight: CGFloat = 150
 
 /// Grid tile representing a configured server.
 struct ServerCard: View {
   let server: MCPServer
   var health: ServerHealth = .unknown
+  var toolCount: Int?
 
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
@@ -25,6 +26,7 @@ struct ServerCard: View {
           .foregroundStyle(.secondary)
           .lineLimit(1)
       }
+      ServerStatLabel(health: health, toolCount: toolCount)
     }
     .frame(maxWidth: .infinity, alignment: .leading)
     .frame(height: serverCardHeight)
@@ -41,17 +43,15 @@ struct ServerCard: View {
 struct ServerRow: View {
   let server: MCPServer
   var health: ServerHealth = .unknown
+  var toolCount: Int?
 
   var body: some View {
     HStack(spacing: 14) {
       ServerLogo(logoURLString: server.logoURLString, host: server.host, symbol: server.symbol, tint: server.tint, size: 40, cornerRadius: 10)
-      VStack(alignment: .leading, spacing: 2) {
+      VStack(alignment: .leading, spacing: 3) {
         Text(server.name)
           .font(.headline)
-        Text(server.host)
-          .font(.caption)
-          .foregroundStyle(.secondary)
-          .lineLimit(1)
+        ServerStatLabel(health: health, toolCount: toolCount)
       }
       Spacer()
       StatusDot(health: health)
@@ -62,6 +62,28 @@ struct ServerRow: View {
     .padding(14)
     .frame(height: 68)
     .background(.background.secondary, in: .rect(cornerRadius: 14))
+  }
+}
+
+/// One-line glance at a server's status: its live tool count when connected,
+/// otherwise the current health state.
+struct ServerStatLabel: View {
+  let health: ServerHealth
+  var toolCount: Int?
+
+  private var text: String {
+    if health == .connected, let toolCount {
+      toolCount == 1 ? "1 tool" : "\(toolCount) tools"
+    } else {
+      health.label
+    }
+  }
+
+  var body: some View {
+    Label(text, systemImage: health == .connected ? "wrench.and.screwdriver" : health.symbol)
+      .font(.caption2.weight(.medium))
+      .foregroundStyle(health == .connected ? AnyShapeStyle(.secondary) : AnyShapeStyle(health.color))
+      .lineLimit(1)
   }
 }
 

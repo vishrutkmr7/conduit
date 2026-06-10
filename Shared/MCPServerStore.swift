@@ -26,6 +26,11 @@ final class MCPServerStore {
     health[server.id]?.health ?? .unknown
   }
 
+  /// Tools advertised by the server on its last successful connection, if known.
+  func toolCount(for server: MCPServer) -> Int? {
+    health[server.id]?.toolCount
+  }
+
   /// Re-checks every server's reachability and refreshes the published health.
   func refreshHealth() async {
     await ServerHealthChecker.checkAll(servers)

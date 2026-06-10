@@ -43,6 +43,9 @@ struct ServerHealthRecord: Codable, Sendable {
   var health: ServerHealth
   var checkedAt: Date
   var detail: String?
+  /// Number of tools the server advertised on the last successful connection.
+  /// Optional so older stored records decode without it.
+  var toolCount: Int?
 }
 
 /// Shared persistence for the latest health reading of each server, written by the
@@ -85,12 +88,14 @@ enum ServerHealthChecker {
   static func check(_ server: MCPServer) async -> ServerHealth {
     let health: ServerHealth
     var detail: String?
+    var toolCount: Int?
 
     if !server.isAuthenticated {
       health = .needsAuth
     } else {
       do {
-        _ = try await MCPClient(server: server).listTools()
+        let tools = try await MCPClient(server: server).listTools()
+        toolCount = tools.count
         health = .connected
       } catch {
         health = .error
@@ -99,7 +104,7 @@ enum ServerHealthChecker {
     }
 
     ServerHealthStore.set(
-      ServerHealthRecord(health: health, checkedAt: .now, detail: detail),
+      ServerHealthRecord(health: health, checkedAt: .now, detail: detail, toolCount: toolCount),
       for: server.id
     )
     return health

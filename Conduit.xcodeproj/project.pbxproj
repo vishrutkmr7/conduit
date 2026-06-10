@@ -35,6 +35,8 @@
 		AC63F5F3A0D33FF2D7C32507 /* ServerTint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35061F8DADA32D66E3249389 /* ServerTint.swift */; };
 		ADD4550EFEBE8F2D4D21C356 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 742032A76F9BD99703179F3C /* Assets.xcassets */; };
 		BECCCA3903FA83F0CCE88F84 /* ServerCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6EE83811BC8D0D74AEFA052 /* ServerCard.swift */; };
+		FEA7000000000000000000B1 /* FeaturedServersStrip.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA7000000000000000000F1 /* FeaturedServersStrip.swift */; };
+		FEA7000000000000000000B2 /* ShortcutIdea.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA7000000000000000000F2 /* ShortcutIdea.swift */; };
 		CEF607205AF16BF8CBE0ADAF /* MCPServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310362AACF5209167939536D /* MCPServer.swift */; };
 		D0778A2CDD8B652BCF6DF71D /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88CFBFFE74F9B6B470F4EBA /* AppGroup.swift */; };
 		D56F306ADC4AA4585075672C /* ConduitWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3152247EF1AB5B9F28F2FAF /* ConduitWidgetBundle.swift */; };
@@ -87,6 +89,8 @@
 		9982CBF9C1A5017892AB6426 /* KnownServers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnownServers.swift; sourceTree = "<group>"; };
 		9C33AF3006F54A0E5DB52856 /* ConduitControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConduitControl.swift; sourceTree = "<group>"; };
 		A6EE83811BC8D0D74AEFA052 /* ServerCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerCard.swift; sourceTree = "<group>"; };
+		FEA7000000000000000000F1 /* FeaturedServersStrip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedServersStrip.swift; sourceTree = "<group>"; };
+		FEA7000000000000000000F2 /* ShortcutIdea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutIdea.swift; sourceTree = "<group>"; };
 		B19FD6A03F04FA7B8F61C67B /* Conduit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Conduit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3152247EF1AB5B9F28F2FAF /* ConduitWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConduitWidgetBundle.swift; sourceTree = "<group>"; };
 		BB43C4CD2C4D525E1DE09DAA /* MCPServerEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCPServerEntity.swift; sourceTree = "<group>"; };
@@ -154,10 +158,12 @@
 				021B1C7AFB92973F65F0925D /* ConduitIntents.swift */,
 				4E6D26F1739007A0009E0920 /* ContentView.swift */,
 				6BA034748B505F5E85222597 /* CustomServerForm.swift */,
+				FEA7000000000000000000F1 /* FeaturedServersStrip.swift */,
 				BB43C4CD2C4D525E1DE09DAA /* MCPServerEntity.swift */,
 				A6EE83811BC8D0D74AEFA052 /* ServerCard.swift */,
 				537297FB660C86F9070306F8 /* ServerDetailView.swift */,
 				CC65FF644683F4E3D2DAC148 /* ServerLogo.swift */,
+				FEA7000000000000000000F2 /* ShortcutIdea.swift */,
 				810FCF34AEB53EC060E2495D /* ServerSetupView.swift */,
 				7D6AFFFA7AB715A41C009E73 /* WebBrowserView.swift */,
 			);
@@ -275,6 +281,7 @@
 				5FC7A1B149C0F775E9DC0A42 /* ConduitIntents.swift in Sources */,
 				55422EE257834AE511D3C939 /* ContentView.swift in Sources */,
 				8676756F21AC4941CA1EA82D /* CustomServerForm.swift in Sources */,
+				FEA7000000000000000000B1 /* FeaturedServersStrip.swift in Sources */,
 				DA9BEAC74A2B469AAD47F763 /* KnownServers.swift in Sources */,
 				29F70CE52929DE02E98A158E /* MCPClient.swift in Sources */,
 				CEF607205AF16BF8CBE0ADAF /* MCPServer.swift in Sources */,
@@ -284,6 +291,7 @@
 				A597484165BB560B49C1B9C3 /* OpenConduitIntent.swift in Sources */,
 				BECCCA3903FA83F0CCE88F84 /* ServerCard.swift in Sources */,
 				E144B95DE34046FEB12AF882 /* ServerDetailView.swift in Sources */,
+				FEA7000000000000000000B2 /* ShortcutIdea.swift in Sources */,
 				B1C2D3E4F5061728394A5B6C /* ServerHealth.swift in Sources */,
 				0DB34D6A25F3B233E0ED17CA /* ServerLogo.swift in Sources */,
 				0E81D832C4416E83FBF5D846 /* ServerSetupView.swift in Sources */,

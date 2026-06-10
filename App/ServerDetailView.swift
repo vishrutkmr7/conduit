@@ -10,6 +10,8 @@ struct ServerDetailView: View {
   @State private var toolsState: LoadState = .idle
   @State private var task = ""
   @State private var agentState: AgentState = .idle
+  @State private var ideasState: IdeasState = .idle
+  @FocusState private var taskFieldFocused: Bool
   @State private var isShowingBrowser = false
   /// Scoped per server so dismissing the tip on one doesn't hide it for the rest.
   @AppStorage private var showsSiriTip: Bool
@@ -36,6 +38,7 @@ struct ServerDetailView: View {
       VStack(spacing: 24) {
         header
         agentSection
+        ideasSection
         toolsSection
         connectionSection
         shortcutsSection
@@ -84,9 +87,17 @@ struct ServerDetailView: View {
           .font(.caption)
           .foregroundStyle(.secondary)
 
+        if let unavailable = ConduitAgent.unavailableMessage {
+          Label(unavailable, systemImage: "exclamationmark.triangle")
+            .font(.caption)
+            .foregroundStyle(.orange)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+
         TextField("e.g. Summarize my open issues", text: $task, axis: .vertical)
           .textFieldStyle(.roundedBorder)
           .lineLimit(1...4)
+          .focused($taskFieldFocused)
 
         Button {
           runTask()
@@ -104,7 +115,7 @@ struct ServerDetailView: View {
         }
         .buttonStyle(.borderedProminent)
         .controlSize(.large)
-        .disabled(task.trimmingCharacters(in: .whitespaces).isEmpty || agentState.isRunning)
+        .disabled(task.trimmingCharacters(in: .whitespaces).isEmpty || agentState.isRunning || ConduitAgent.unavailableMessage != nil)
 
         switch agentState {
         case .idle, .running:
@@ -118,6 +129,58 @@ struct ServerDetailView: View {
     }
   }
 
+  @ViewBuilder
+  private var ideasSection: some View {
+    if case .unavailable = ideasState {
+      EmptyView()
+    } else {
+      GroupBox {
+        VStack(alignment: .leading, spacing: 12) {
+          HStack {
+            Label("Ideas for this server", systemImage: "lightbulb.max")
+              .font(.headline)
+            Spacer()
+            if case .loaded = ideasState {
+              Button("Regenerate ideas", systemImage: "arrow.clockwise") {
+                Task { await generateIdeas() }
+              }
+              .labelStyle(.iconOnly)
+              .buttonStyle(.borderless)
+            }
+          }
+          Text("Tap an idea to fill in a task. Generated on-device from this server's tools.")
+            .font(.caption)
+            .foregroundStyle(.secondary)
+
+          switch ideasState {
+          case .idle, .loading:
+            HStack(spacing: 8) {
+              ProgressView()
+              Text("Brainstorming ideas…")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+          case .loaded(let ideas):
+            if ideas.isEmpty {
+              Text("No ideas to suggest right now.")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            } else {
+              ForEach(Array(ideas.enumerated()), id: \.offset) { _, idea in
+                IdeaButton(idea: idea) { select(idea) }
+              }
+            }
+          case .failed(let message):
+            ResultBox(text: message, isError: true)
+          case .unavailable:
+            EmptyView()
+          }
+        }
+      }
+    }
+  }
+
   private var toolsSection: some View {
     GroupBox {
       VStack(alignment: .leading, spacing: 12) {
@@ -125,7 +188,17 @@ struct ServerDetailView: View {
           Label("Available Tools", systemImage: "wrench.and.screwdriver")
             .font(.headline)
           Spacer()
-          if case .loading = toolsState { ProgressView() }
+          if case .loading = toolsState {
+            ProgressView()
+          } else if case .loaded = toolsState, !tools.isEmpty {
+            Text("\(tools.count)")
+              .font(.caption.weight(.semibold).monospacedDigit())
+              .foregroundStyle(.secondary)
+              .padding(.horizontal, 8)
+              .padding(.vertical, 2)
+              .background(.fill.tertiary, in: .capsule)
+              .accessibilityLabel("\(tools.count) tools")
+          }
         }
 
         switch toolsState {
@@ -204,9 +277,29 @@ struct ServerDetailView: View {
       let loaded = try await MCPClient(server: current).listTools()
       tools = loaded
       toolsState = .loaded
+      await generateIdeas()
     } catch {
       toolsState = .failed(error.localizedDescription)
     }
+  }
+
+  private func generateIdeas() async {
+    guard ConduitAgent.unavailableMessage == nil, !tools.isEmpty else {
+      ideasState = .unavailable
+      return
+    }
+    ideasState = .loading
+    do {
+      let ideas = try await ConduitAgent.suggestShortcuts(for: current, tools: tools)
+      ideasState = .loaded(ideas)
+    } catch {
+      ideasState = .failed(error.localizedDescription)
+    }
+  }
+
+  private func select(_ idea: ShortcutIdea) {
+    task = idea.prompt
+    taskFieldFocused = true
   }
 
   private func runTask() {
@@ -228,6 +321,12 @@ struct ServerDetailView: View {
     case failed(String)
   }
 
+  enum IdeasState: Equatable {
+    case idle, loading, unavailable
+    case loaded([ShortcutIdea])
+    case failed(String)
+  }
+
   enum AgentState {
     case idle
     case running
@@ -235,6 +334,35 @@ struct ServerDetailView: View {
     case failure(String)
 
     var isRunning: Bool { if case .running = self { true } else { false } }
+  }
+}
+
+/// A tappable suggestion that prefills the agent prompt with a generated idea.
+private struct IdeaButton: View {
+  let idea: ShortcutIdea
+  var action: () -> Void
+
+  var body: some View {
+    Button(action: action) {
+      HStack(spacing: 10) {
+        VStack(alignment: .leading, spacing: 2) {
+          Text(idea.title)
+            .font(.subheadline.weight(.medium))
+            .frame(maxWidth: .infinity, alignment: .leading)
+          Text(idea.prompt)
+            .font(.caption)
+            .foregroundStyle(.secondary)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        Image(systemName: "arrow.up.left.circle")
+          .foregroundStyle(.tint)
+      }
+      .padding(12)
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .background(.background.secondary, in: .rect(cornerRadius: 12))
+    }
+    .buttonStyle(.plain)
+    .accessibilityHint("Fills in the task field with this idea")
   }
 }
 

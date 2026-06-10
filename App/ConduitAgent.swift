@@ -2,15 +2,13 @@ import Foundation
 import FoundationModels
 
 enum ConduitAgentError: LocalizedError {
-  case modelUnavailable
+  case modelUnavailable(String)
   case noTools
 
   var errorDescription: String? {
     switch self {
-    case .modelUnavailable:
-      "Apple Intelligence isn't available on this device. Enable it in Settings, or try on a supported device."
-    case .noTools:
-      "This server didn't report any tools to work with."
+    case .modelUnavailable(let message): message
+    case .noTools: "This server didn't report any tools to work with."
     }
   }
 }
@@ -18,10 +16,21 @@ enum ConduitAgentError: LocalizedError {
 /// Drives an agentic task: connects to an MCP server, exposes its tools to the
 /// on-device model, and lets the model call them to accomplish the user's request.
 enum ConduitAgent {
+  /// A user-facing explanation when Apple Intelligence can't run, or `nil` when the
+  /// on-device model is ready. Surfaced in the UI so the Run action can explain why
+  /// it's disabled rather than failing only after a tap.
+  static var unavailableMessage: String? {
+    switch SystemLanguageModel.default.availability {
+    case .available:
+      nil
+    case .unavailable(let reason):
+      message(for: reason)
+    }
+  }
+
   static func run(task: String, on server: MCPServer) async throws -> String {
-    let model = SystemLanguageModel.default
-    guard case .available = model.availability else {
-      throw ConduitAgentError.modelUnavailable
+    if let unavailableMessage {
+      throw ConduitAgentError.modelUnavailable(unavailableMessage)
     }
 
     let client = MCPClient(server: server)
@@ -42,6 +51,49 @@ enum ConduitAgent {
     let session = LanguageModelSession(tools: tools, instructions: instructions)
     let response = try await session.respond(to: task)
     return response.content
+  }
+
+  /// Reads the server's tool catalog and asks the on-device model to brainstorm a
+  /// few concrete tasks the user could run, using guided generation so the result
+  /// is structured rather than free text. The model only reads tool descriptions
+  /// here — it doesn't call them — so this is a cheap, read-only suggestion pass.
+  static func suggestShortcuts(for server: MCPServer, tools: [MCPTool]) async throws -> [ShortcutIdea] {
+    if let unavailableMessage {
+      throw ConduitAgentError.modelUnavailable(unavailableMessage)
+    }
+    guard !tools.isEmpty else { throw ConduitAgentError.noTools }
+
+    let catalog = tools.prefix(20).map { tool in
+      let summary = tool.description.isEmpty ? "no description" : tool.description
+      return "- \(tool.name): \(summary)"
+    }.joined(separator: "\n")
+
+    let instructions = """
+    You help people discover what they can do with the "\(server.name)" service. \
+    Given its available tools, propose practical, specific tasks a person could ask \
+    an assistant to perform. Every idea must be achievable using only the listed \
+    tools. Keep titles short and prompts natural and concise. Avoid duplicates.
+    """
+
+    let session = LanguageModelSession(instructions: instructions)
+    let response = try await session.respond(
+      to: "Available tools for \(server.name):\n\(catalog)\n\nSuggest task ideas that use these tools.",
+      generating: ShortcutIdeas.self
+    )
+    return response.content.ideas
+  }
+
+  private static func message(for reason: SystemLanguageModel.Availability.UnavailableReason) -> String {
+    switch reason {
+    case .deviceNotEligible:
+      "Apple Intelligence isn't supported on this device."
+    case .appleIntelligenceNotEnabled:
+      "Turn on Apple Intelligence in Settings to run tasks on this server."
+    case .modelNotReady:
+      "The on-device model is still downloading. Try again in a little while."
+    @unknown default:
+      "Apple Intelligence isn't available right now."
+    }
   }
 }
 
