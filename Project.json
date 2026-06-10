@@ -26,7 +26,7 @@
           "com.apple.security.app-sandbox": true,
           "com.apple.security.network.client": true,
           "com.apple.security.application-groups": [
-            "group.app.bitrig.new.ab738821-49ee-4307-a78e-c657a08541a1"
+            "group.app.bitrig.vishrutjha.conduit"
           ]
         }
       },
@@ -79,7 +79,7 @@
         "properties": {
           "com.apple.security.app-sandbox": true,
           "com.apple.security.application-groups": [
-            "group.app.bitrig.new.ab738821-49ee-4307-a78e-c657a08541a1"
+            "group.app.bitrig.vishrutjha.conduit"
           ]
         }
       },
