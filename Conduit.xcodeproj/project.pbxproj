@@ -1,0 +1,596 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0DB34D6A25F3B233E0ED17CA /* ServerLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC65FF644683F4E3D2DAC148 /* ServerLogo.swift */; };
+		0E81D832C4416E83FBF5D846 /* ServerSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810FCF34AEB53EC060E2495D /* ServerSetupView.swift */; };
+		0FE35F1B6018747A4FEAD43D /* MCPServerStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C74C506F644AAA9B4288E78 /* MCPServerStorage.swift */; };
+		29F70CE52929DE02E98A158E /* MCPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4C7243225A746787064AF0 /* MCPClient.swift */; };
+		4E87EF8F54FFBBC928AC311C /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88CFBFFE74F9B6B470F4EBA /* AppGroup.swift */; };
+		55422EE257834AE511D3C939 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6D26F1739007A0009E0920 /* ContentView.swift */; };
+		5FC7A1B149C0F775E9DC0A42 /* ConduitIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021B1C7AFB92973F65F0925D /* ConduitIntents.swift */; };
+		615CAB6CDC3AD6DD084DEC8E /* MCPServerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80158018325EFCAA3919DBD5 /* MCPServerStore.swift */; };
+		61DE5757214AE080EA392142 /* ConduitAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C807DCF93E5D35A278A9923A /* ConduitAgent.swift */; };
+		63F9742F3CFD70D4E4F4B03F /* ServerTint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35061F8DADA32D66E3249389 /* ServerTint.swift */; };
+		7351E6CE34814BB1DDD6AA38 /* MCPServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310362AACF5209167939536D /* MCPServer.swift */; };
+		7C261233989B27AD25AE0D1D /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90786788DDA3142F9378A276 /* App.swift */; };
+		7CAE918449560E541E2C1321 /* ConduitWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54156C1364A1B24B561ACA85 /* ConduitWidget.swift */; };
+		8676756F21AC4941CA1EA82D /* CustomServerForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA034748B505F5E85222597 /* CustomServerForm.swift */; };
+		87FFCF6DB5CA456A430CF450 /* MCPServerEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB43C4CD2C4D525E1DE09DAA /* MCPServerEntity.swift */; };
+		8E5410A59C1C907988F402C7 /* MCPServerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80158018325EFCAA3919DBD5 /* MCPServerStore.swift */; };
+		8ED46DBB1E82399AB9826A26 /* OpenConduitIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2E9DA28394D6445E1CDA00 /* OpenConduitIntent.swift */; };
+		96BDC55467E28CA4E0D50A69 /* KnownServers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9982CBF9C1A5017892AB6426 /* KnownServers.swift */; };
+		9A55CD78022E6B52BF7490F5 /* ConduitControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C33AF3006F54A0E5DB52856 /* ConduitControl.swift */; };
+		A4DC875E22FC355B95A92078 /* MCPServerStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C74C506F644AAA9B4288E78 /* MCPServerStorage.swift */; };
+		A597484165BB560B49C1B9C3 /* OpenConduitIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2E9DA28394D6445E1CDA00 /* OpenConduitIntent.swift */; };
+		AB8220DA3DEC22CBFC977D14 /* AddServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509BC94553BCAD084E892393 /* AddServerView.swift */; };
+		ABB8D0E66303A6F5DEFDB3DD /* WebBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6AFFFA7AB715A41C009E73 /* WebBrowserView.swift */; };
+		AC63F5F3A0D33FF2D7C32507 /* ServerTint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35061F8DADA32D66E3249389 /* ServerTint.swift */; };
+		ADD4550EFEBE8F2D4D21C356 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 742032A76F9BD99703179F3C /* Assets.xcassets */; };
+		BECCCA3903FA83F0CCE88F84 /* ServerCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6EE83811BC8D0D74AEFA052 /* ServerCard.swift */; };
+		CEF607205AF16BF8CBE0ADAF /* MCPServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310362AACF5209167939536D /* MCPServer.swift */; };
+		D0778A2CDD8B652BCF6DF71D /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88CFBFFE74F9B6B470F4EBA /* AppGroup.swift */; };
+		D56F306ADC4AA4585075672C /* ConduitWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3152247EF1AB5B9F28F2FAF /* ConduitWidgetBundle.swift */; };
+		DA9BEAC74A2B469AAD47F763 /* KnownServers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9982CBF9C1A5017892AB6426 /* KnownServers.swift */; };
+		E144B95DE34046FEB12AF882 /* ServerDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537297FB660C86F9070306F8 /* ServerDetailView.swift */; };
+		E6FBAD488E1A0D4BE9035706 /* Conduit Widget Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DE70F7FEA3FE772D070CEA22 /* Conduit Widget Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FDA58D9D16A517B4A63B7915 /* MCPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4C7243225A746787064AF0 /* MCPClient.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1822F193CE53A6DEEAAD7CEA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F0F961A36D23892536A0286A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A04513F6748A5372A9576141;
+			remoteInfo = "Conduit Widget Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2810DE212AA2C3F53547D33D /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				E6FBAD488E1A0D4BE9035706 /* Conduit Widget Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		021B1C7AFB92973F65F0925D /* ConduitIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConduitIntents.swift; sourceTree = "<group>"; };
+		310362AACF5209167939536D /* MCPServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCPServer.swift; sourceTree = "<group>"; };
+		35061F8DADA32D66E3249389 /* ServerTint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerTint.swift; sourceTree = "<group>"; };
+		4E6D26F1739007A0009E0920 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		509BC94553BCAD084E892393 /* AddServerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddServerView.swift; sourceTree = "<group>"; };
+		537297FB660C86F9070306F8 /* ServerDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDetailView.swift; sourceTree = "<group>"; };
+		54156C1364A1B24B561ACA85 /* ConduitWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConduitWidget.swift; sourceTree = "<group>"; };
+		6BA034748B505F5E85222597 /* CustomServerForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomServerForm.swift; sourceTree = "<group>"; };
+		742032A76F9BD99703179F3C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7C74C506F644AAA9B4288E78 /* MCPServerStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCPServerStorage.swift; sourceTree = "<group>"; };
+		7D6AFFFA7AB715A41C009E73 /* WebBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebBrowserView.swift; sourceTree = "<group>"; };
+		80158018325EFCAA3919DBD5 /* MCPServerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCPServerStore.swift; sourceTree = "<group>"; };
+		810FCF34AEB53EC060E2495D /* ServerSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSetupView.swift; sourceTree = "<group>"; };
+		90786788DDA3142F9378A276 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		9982CBF9C1A5017892AB6426 /* KnownServers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnownServers.swift; sourceTree = "<group>"; };
+		9C33AF3006F54A0E5DB52856 /* ConduitControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConduitControl.swift; sourceTree = "<group>"; };
+		A6EE83811BC8D0D74AEFA052 /* ServerCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerCard.swift; sourceTree = "<group>"; };
+		B19FD6A03F04FA7B8F61C67B /* Conduit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Conduit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B3152247EF1AB5B9F28F2FAF /* ConduitWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConduitWidgetBundle.swift; sourceTree = "<group>"; };
+		BB43C4CD2C4D525E1DE09DAA /* MCPServerEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCPServerEntity.swift; sourceTree = "<group>"; };
+		BC4C7243225A746787064AF0 /* MCPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCPClient.swift; sourceTree = "<group>"; };
+		C807DCF93E5D35A278A9923A /* ConduitAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConduitAgent.swift; sourceTree = "<group>"; };
+		CC65FF644683F4E3D2DAC148 /* ServerLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerLogo.swift; sourceTree = "<group>"; };
+		CF2E9DA28394D6445E1CDA00 /* OpenConduitIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenConduitIntent.swift; sourceTree = "<group>"; };
+		DE70F7FEA3FE772D070CEA22 /* Conduit Widget Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Conduit Widget Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E88CFBFFE74F9B6B470F4EBA /* AppGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroup.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		10887FC390F5625A3FD2CE82 = {
+			isa = PBXGroup;
+			children = (
+				EBF963D10801E76B4DD41678 /* App */,
+				3B04035F63CA330D6A16BBAA /* Shared */,
+				7B33749EBBCA293EC2E46E05 /* Widget Extension */,
+				865D1D34D44F8E8D9F942411 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3B04035F63CA330D6A16BBAA /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				E88CFBFFE74F9B6B470F4EBA /* AppGroup.swift */,
+				9982CBF9C1A5017892AB6426 /* KnownServers.swift */,
+				BC4C7243225A746787064AF0 /* MCPClient.swift */,
+				310362AACF5209167939536D /* MCPServer.swift */,
+				7C74C506F644AAA9B4288E78 /* MCPServerStorage.swift */,
+				80158018325EFCAA3919DBD5 /* MCPServerStore.swift */,
+				CF2E9DA28394D6445E1CDA00 /* OpenConduitIntent.swift */,
+				35061F8DADA32D66E3249389 /* ServerTint.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		7B33749EBBCA293EC2E46E05 /* Widget Extension */ = {
+			isa = PBXGroup;
+			children = (
+				9C33AF3006F54A0E5DB52856 /* ConduitControl.swift */,
+				54156C1364A1B24B561ACA85 /* ConduitWidget.swift */,
+				B3152247EF1AB5B9F28F2FAF /* ConduitWidgetBundle.swift */,
+			);
+			path = "Widget Extension";
+			sourceTree = "<group>";
+		};
+		865D1D34D44F8E8D9F942411 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DE70F7FEA3FE772D070CEA22 /* Conduit Widget Extension.appex */,
+				B19FD6A03F04FA7B8F61C67B /* Conduit.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EBF963D10801E76B4DD41678 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				509BC94553BCAD084E892393 /* AddServerView.swift */,
+				90786788DDA3142F9378A276 /* App.swift */,
+				742032A76F9BD99703179F3C /* Assets.xcassets */,
+				C807DCF93E5D35A278A9923A /* ConduitAgent.swift */,
+				021B1C7AFB92973F65F0925D /* ConduitIntents.swift */,
+				4E6D26F1739007A0009E0920 /* ContentView.swift */,
+				6BA034748B505F5E85222597 /* CustomServerForm.swift */,
+				BB43C4CD2C4D525E1DE09DAA /* MCPServerEntity.swift */,
+				A6EE83811BC8D0D74AEFA052 /* ServerCard.swift */,
+				537297FB660C86F9070306F8 /* ServerDetailView.swift */,
+				CC65FF644683F4E3D2DAC148 /* ServerLogo.swift */,
+				810FCF34AEB53EC060E2495D /* ServerSetupView.swift */,
+				7D6AFFFA7AB715A41C009E73 /* WebBrowserView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A04513F6748A5372A9576141 /* Conduit Widget Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2126CF2F73135B0FA48530E2 /* Build configuration list for PBXNativeTarget "Conduit Widget Extension" */;
+			buildPhases = (
+				00194148A5882C7295156FA5 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Conduit Widget Extension";
+			packageProductDependencies = (
+			);
+			productName = "Conduit Widget Extension";
+			productReference = DE70F7FEA3FE772D070CEA22 /* Conduit Widget Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		F2F0EF9837007F3B2B0424C4 /* Conduit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D72AF78C7D9E30B7A1A2B54A /* Build configuration list for PBXNativeTarget "Conduit" */;
+			buildPhases = (
+				D0F6BB0046C6168FBE62CE5B /* Sources */,
+				87E9E060485B0D52248F9086 /* Resources */,
+				2810DE212AA2C3F53547D33D /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4DADA4D8E9B93C504E4182A8 /* PBXTargetDependency */,
+			);
+			name = Conduit;
+			packageProductDependencies = (
+			);
+			productName = Conduit;
+			productReference = B19FD6A03F04FA7B8F61C67B /* Conduit.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F0F961A36D23892536A0286A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2700;
+			};
+			buildConfigurationList = CFEB80FE79E536D6BA3576FE /* Build configuration list for PBXProject "Conduit" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 10887FC390F5625A3FD2CE82;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 865D1D34D44F8E8D9F942411 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F2F0EF9837007F3B2B0424C4 /* Conduit */,
+				A04513F6748A5372A9576141 /* Conduit Widget Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		87E9E060485B0D52248F9086 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADD4550EFEBE8F2D4D21C356 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		00194148A5882C7295156FA5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4E87EF8F54FFBBC928AC311C /* AppGroup.swift in Sources */,
+				9A55CD78022E6B52BF7490F5 /* ConduitControl.swift in Sources */,
+				7CAE918449560E541E2C1321 /* ConduitWidget.swift in Sources */,
+				D56F306ADC4AA4585075672C /* ConduitWidgetBundle.swift in Sources */,
+				96BDC55467E28CA4E0D50A69 /* KnownServers.swift in Sources */,
+				FDA58D9D16A517B4A63B7915 /* MCPClient.swift in Sources */,
+				7351E6CE34814BB1DDD6AA38 /* MCPServer.swift in Sources */,
+				A4DC875E22FC355B95A92078 /* MCPServerStorage.swift in Sources */,
+				8E5410A59C1C907988F402C7 /* MCPServerStore.swift in Sources */,
+				8ED46DBB1E82399AB9826A26 /* OpenConduitIntent.swift in Sources */,
+				63F9742F3CFD70D4E4F4B03F /* ServerTint.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0F6BB0046C6168FBE62CE5B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB8220DA3DEC22CBFC977D14 /* AddServerView.swift in Sources */,
+				7C261233989B27AD25AE0D1D /* App.swift in Sources */,
+				D0778A2CDD8B652BCF6DF71D /* AppGroup.swift in Sources */,
+				61DE5757214AE080EA392142 /* ConduitAgent.swift in Sources */,
+				5FC7A1B149C0F775E9DC0A42 /* ConduitIntents.swift in Sources */,
+				55422EE257834AE511D3C939 /* ContentView.swift in Sources */,
+				8676756F21AC4941CA1EA82D /* CustomServerForm.swift in Sources */,
+				DA9BEAC74A2B469AAD47F763 /* KnownServers.swift in Sources */,
+				29F70CE52929DE02E98A158E /* MCPClient.swift in Sources */,
+				CEF607205AF16BF8CBE0ADAF /* MCPServer.swift in Sources */,
+				87FFCF6DB5CA456A430CF450 /* MCPServerEntity.swift in Sources */,
+				0FE35F1B6018747A4FEAD43D /* MCPServerStorage.swift in Sources */,
+				615CAB6CDC3AD6DD084DEC8E /* MCPServerStore.swift in Sources */,
+				A597484165BB560B49C1B9C3 /* OpenConduitIntent.swift in Sources */,
+				BECCCA3903FA83F0CCE88F84 /* ServerCard.swift in Sources */,
+				E144B95DE34046FEB12AF882 /* ServerDetailView.swift in Sources */,
+				0DB34D6A25F3B233E0ED17CA /* ServerLogo.swift in Sources */,
+				0E81D832C4416E83FBF5D846 /* ServerSetupView.swift in Sources */,
+				AC63F5F3A0D33FF2D7C32507 /* ServerTint.swift in Sources */,
+				ABB8D0E66303A6F5DEFDB3DD /* WebBrowserView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4DADA4D8E9B93C504E4182A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A04513F6748A5372A9576141 /* Conduit Widget Extension */;
+			targetProxy = 1822F193CE53A6DEEAAD7CEA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		09B5D8B4904B283AA22ADC05 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = App/Conduit.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "app.bitrig.vishrutjha.conduit";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2745C4B2C17E3D445D900893 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = "Widget Extension/Widget Extension.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "Widget Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "app.bitrig.vishrutjha.conduit.widget-extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3456E6D98B5E1488D359D648 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 3F634L5D2A;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		66B70804B4FD7053251E5DAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 3F634L5D2A;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		8779EC9C516EB40096FDC34C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = "Widget Extension/Widget Extension.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "Widget Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "app.bitrig.vishrutjha.conduit.widget-extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A4D19AFE2AF73B8F42101EE7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = App/Conduit.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "app.bitrig.vishrutjha.conduit";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2126CF2F73135B0FA48530E2 /* Build configuration list for PBXNativeTarget "Conduit Widget Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2745C4B2C17E3D445D900893 /* Debug */,
+				8779EC9C516EB40096FDC34C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		CFEB80FE79E536D6BA3576FE /* Build configuration list for PBXProject "Conduit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				66B70804B4FD7053251E5DAB /* Debug */,
+				3456E6D98B5E1488D359D648 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D72AF78C7D9E30B7A1A2B54A /* Build configuration list for PBXNativeTarget "Conduit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				09B5D8B4904B283AA22ADC05 /* Debug */,
+				A4D19AFE2AF73B8F42101EE7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F0F961A36D23892536A0286A /* Project object */;
+}
