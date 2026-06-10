@@ -66,7 +66,7 @@ private struct KnownServerCard: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 10) {
       HStack {
-        ServerLogo(logoURLString: known.logoURLString, symbol: known.symbol, tint: known.tint, size: 40, cornerRadius: 10)
+        ServerLogo(logoURLString: known.logoURLString, host: known.host, symbol: known.symbol, tint: known.tint, size: 40, cornerRadius: 10)
         Spacer()
         if isAdded {
           Image(systemName: "checkmark.circle.fill")

@@ -8,11 +8,21 @@ struct KnownServer: Identifiable, Hashable, Sendable {
   var urlString: String
   var symbol: String
   var tint: String
-  /// Remote logo for the provider, loaded from its own site.
-  var logoURLString: String?
+  /// The provider's brand domain (e.g. `github.com`), used to load its logo.
+  var logoDomain: String?
   var authKind: MCPAuthKind
   /// Page to open in the in-app browser to obtain credentials, when applicable.
   var authURLString: String?
+
+  /// A 128px favicon for the brand domain — a reliable stand-in for a logo.
+  var logoURLString: String? {
+    logoDomain.map { "https://www.google.com/s2/favicons?domain=\($0)&sz=128" }
+  }
+
+  /// Host of the MCP endpoint, used as a favicon fallback if the logo fails.
+  var host: String? {
+    URL(string: urlString)?.host()
+  }
 
   func makeServer() -> MCPServer {
     MCPServer(
@@ -35,7 +45,7 @@ enum KnownServers {
       urlString: "https://api.githubcopilot.com/mcp/",
       symbol: "chevron.left.forwardslash.chevron.right",
       tint: "purple",
-      logoURLString: "https://logo.clearbit.com/github.com",
+      logoDomain: "github.com",
       authKind: .oauth,
       authURLString: "https://github.com/login"
     ),
@@ -45,7 +55,7 @@ enum KnownServers {
       urlString: "https://mcp.linear.app/mcp",
       symbol: "checklist",
       tint: "indigo",
-      logoURLString: "https://logo.clearbit.com/linear.app",
+      logoDomain: "linear.app",
       authKind: .oauth,
       authURLString: "https://linear.app/login"
     ),
@@ -55,7 +65,7 @@ enum KnownServers {
       urlString: "https://mcp.notion.com/mcp",
       symbol: "doc.richtext",
       tint: "gray",
-      logoURLString: "https://logo.clearbit.com/notion.so",
+      logoDomain: "notion.so",
       authKind: .oauth,
       authURLString: "https://www.notion.so/login"
     ),
@@ -65,7 +75,7 @@ enum KnownServers {
       urlString: "https://mcp.sentry.dev/mcp",
       symbol: "ladybug",
       tint: "orange",
-      logoURLString: "https://logo.clearbit.com/sentry.io",
+      logoDomain: "sentry.io",
       authKind: .oauth,
       authURLString: "https://sentry.io/auth/login/"
     ),
@@ -75,7 +85,7 @@ enum KnownServers {
       urlString: "https://mcp.stripe.com",
       symbol: "creditcard",
       tint: "blue",
-      logoURLString: "https://logo.clearbit.com/stripe.com",
+      logoDomain: "stripe.com",
       authKind: .bearer
     ),
     KnownServer(
@@ -84,7 +94,7 @@ enum KnownServers {
       urlString: "https://huggingface.co/mcp",
       symbol: "brain",
       tint: "yellow",
-      logoURLString: "https://www.google.com/s2/favicons?domain=huggingface.co&sz=128",
+      logoDomain: "huggingface.co",
       authKind: .bearer
     ),
     KnownServer(
@@ -93,7 +103,7 @@ enum KnownServers {
       urlString: "https://mcp.deepwiki.com/mcp",
       symbol: "book",
       tint: "green",
-      logoURLString: "https://www.google.com/s2/favicons?domain=deepwiki.com&sz=128",
+      logoDomain: "deepwiki.com",
       authKind: .none
     ),
     KnownServer(
@@ -102,7 +112,7 @@ enum KnownServers {
       urlString: "https://mcp.context7.com/mcp",
       symbol: "books.vertical",
       tint: "mint",
-      logoURLString: "https://www.google.com/s2/favicons?domain=context7.com&sz=128",
+      logoDomain: "context7.com",
       authKind: .none
     )
   ]
