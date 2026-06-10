@@ -7,11 +7,7 @@ struct ServerCard: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
       HStack {
-        Image(systemName: server.symbol)
-          .font(.title2)
-          .foregroundStyle(.white)
-          .frame(width: 44, height: 44)
-          .background(ServerTint.color(server.tint).gradient, in: .rect(cornerRadius: 12))
+        ServerLogo(logoURLString: server.logoURLString, symbol: server.symbol, tint: server.tint, size: 44, cornerRadius: 12)
         Spacer()
         AuthBadge(server: server)
       }
@@ -41,11 +37,7 @@ struct ServerRow: View {
 
   var body: some View {
     HStack(spacing: 14) {
-      Image(systemName: server.symbol)
-        .font(.title3)
-        .foregroundStyle(.white)
-        .frame(width: 40, height: 40)
-        .background(ServerTint.color(server.tint).gradient, in: .rect(cornerRadius: 10))
+      ServerLogo(logoURLString: server.logoURLString, symbol: server.symbol, tint: server.tint, size: 40, cornerRadius: 10)
       VStack(alignment: .leading, spacing: 2) {
         Text(server.name)
           .font(.headline)

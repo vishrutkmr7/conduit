@@ -64,11 +64,7 @@ private struct KnownServerCard: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 10) {
       HStack {
-        Image(systemName: known.symbol)
-          .font(.title3)
-          .foregroundStyle(.white)
-          .frame(width: 40, height: 40)
-          .background(ServerTint.color(known.tint).gradient, in: .rect(cornerRadius: 10))
+        ServerLogo(logoURLString: known.logoURLString, symbol: known.symbol, tint: known.tint, size: 40, cornerRadius: 10)
         Spacer()
         if isAdded {
           Image(systemName: "checkmark.circle.fill")

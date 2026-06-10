@@ -50,11 +50,7 @@ struct ServerDetailView: View {
 
   private var header: some View {
     VStack(spacing: 12) {
-      Image(systemName: current.symbol)
-        .font(.system(size: 34))
-        .foregroundStyle(.white)
-        .frame(width: 76, height: 76)
-        .background(ServerTint.color(current.tint).gradient, in: .rect(cornerRadius: 18))
+      ServerLogo(logoURLString: current.logoURLString, symbol: current.symbol, tint: current.tint, size: 76, cornerRadius: 18)
       Text(current.host)
         .font(.callout)
         .foregroundStyle(.secondary)

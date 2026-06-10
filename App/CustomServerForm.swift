@@ -124,11 +124,16 @@ struct CustomServerForm: View {
   }
 
   private func add() {
+    let trimmedURL = urlString.trimmingCharacters(in: .whitespaces)
+    let logo = URL(string: trimmedURL)?.host().map {
+      "https://www.google.com/s2/favicons?domain=\($0)&sz=128"
+    }
     let server = MCPServer(
       name: name.trimmingCharacters(in: .whitespaces),
-      urlString: urlString.trimmingCharacters(in: .whitespaces),
+      urlString: trimmedURL,
       symbol: symbol,
       tint: tint,
+      logoURLString: logo,
       authKind: authKind,
       credential: credential.isEmpty ? nil : credential,
       headerName: headerName,

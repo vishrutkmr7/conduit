@@ -74,11 +74,7 @@ struct ServerSetupView: View {
 
   private var header: some View {
     VStack(spacing: 12) {
-      Image(systemName: known.symbol)
-        .font(.system(size: 34))
-        .foregroundStyle(.white)
-        .frame(width: 76, height: 76)
-        .background(ServerTint.color(known.tint).gradient, in: .rect(cornerRadius: 18))
+      ServerLogo(logoURLString: known.logoURLString, symbol: known.symbol, tint: known.tint, size: 76, cornerRadius: 18)
       Text(known.summary)
         .font(.callout)
         .foregroundStyle(.secondary)

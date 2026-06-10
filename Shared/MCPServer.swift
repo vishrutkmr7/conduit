@@ -36,6 +36,8 @@ struct MCPServer: Codable, Identifiable, Hashable, Sendable {
   var urlString: String
   var symbol: String
   var tint: String
+  /// Remote URL of the provider's logo, shown in place of the SF Symbol when it loads.
+  var logoURLString: String?
   var authKind: MCPAuthKind
   /// Stored credential (API key, bearer, or OAuth access token) when present.
   var credential: String?
@@ -50,6 +52,7 @@ struct MCPServer: Codable, Identifiable, Hashable, Sendable {
     urlString: String,
     symbol: String = "server.rack",
     tint: String = "teal",
+    logoURLString: String? = nil,
     authKind: MCPAuthKind = .none,
     credential: String? = nil,
     headerName: String = "Authorization",
@@ -61,6 +64,7 @@ struct MCPServer: Codable, Identifiable, Hashable, Sendable {
     self.urlString = urlString
     self.symbol = symbol
     self.tint = tint
+    self.logoURLString = logoURLString
     self.authKind = authKind
     self.credential = credential
     self.headerName = headerName
