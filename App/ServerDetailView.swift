@@ -18,6 +18,13 @@ struct ServerDetailView: View {
     store.servers.first { $0.id == server.id } ?? server
   }
 
+  /// A run intent preconfigured with this server so the Siri tip is scoped to it.
+  private var runIntent: RunAgentTaskIntent {
+    let intent = RunAgentTaskIntent()
+    intent.server = current.entity
+    return intent
+  }
+
   var body: some View {
     ScrollView {
       VStack(spacing: 24) {
@@ -175,7 +182,7 @@ struct ServerDetailView: View {
           .font(.caption)
           .foregroundStyle(.secondary)
 
-        SiriTipView(intent: RunAgentTaskIntent(), isVisible: $showsSiriTip)
+        SiriTipView(intent: runIntent, isVisible: $showsSiriTip)
 
         ShortcutsLink()
       }
