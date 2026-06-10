@@ -79,7 +79,7 @@ private struct KnownServerCard: View {
       Text(known.summary)
         .font(.caption)
         .foregroundStyle(.secondary)
-        .lineLimit(2)
+        .lineLimit(2, reservesSpace: true)
         .frame(maxWidth: .infinity, alignment: .leading)
       Label(known.authKind == .none ? "Open access" : "Needs sign in", systemImage: known.authKind.symbol)
         .font(.caption2)

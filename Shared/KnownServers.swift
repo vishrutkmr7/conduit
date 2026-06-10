@@ -89,6 +89,16 @@ enum KnownServers {
       authKind: .bearer
     ),
     KnownServer(
+      name: "Robinhood",
+      summary: "Agentic stock trading and portfolio.",
+      urlString: "https://agent.robinhood.com/mcp/trading",
+      symbol: "chart.line.uptrend.xyaxis",
+      tint: "green",
+      logoDomain: "robinhood.com",
+      authKind: .oauth,
+      authURLString: "https://robinhood.com/us/en/agentic-trading/"
+    ),
+    KnownServer(
       name: "Hugging Face",
       summary: "Models, datasets, and spaces.",
       urlString: "https://huggingface.co/mcp",
