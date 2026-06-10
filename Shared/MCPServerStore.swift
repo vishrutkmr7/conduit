@@ -8,13 +8,28 @@ import WidgetKit
 @Observable
 final class MCPServerStore {
   private(set) var servers: [MCPServer]
+  /// Latest connection health per server, mirrored from the shared store so the UI
+  /// can show the same colored status the widgets do.
+  private(set) var health: [UUID: ServerHealthRecord]
 
   init() {
     servers = MCPServerStorage.load()
+    health = ServerHealthStore.load()
   }
 
   func reload() {
     servers = MCPServerStorage.load()
+    health = ServerHealthStore.load()
+  }
+
+  func health(for server: MCPServer) -> ServerHealth {
+    health[server.id]?.health ?? .unknown
+  }
+
+  /// Re-checks every server's reachability and refreshes the published health.
+  func refreshHealth() async {
+    await ServerHealthChecker.checkAll(servers)
+    health = ServerHealthStore.load()
   }
 
   func contains(_ urlString: String) -> Bool {
@@ -48,5 +63,7 @@ final class MCPServerStore {
 
   private func persist() {
     MCPServerStorage.save(servers)
+    ServerHealthStore.prune(keeping: servers.map(\.id))
+    health = ServerHealthStore.load()
   }
 }

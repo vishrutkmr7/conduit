@@ -1,8 +1,11 @@
 import AppIntents
+import CoreSpotlight
+import UniformTypeIdentifiers
 
 /// Exposes a configured MCP server to the App Intents system so it can be chosen
-/// in the Shortcuts app and by Siri.
-struct MCPServerEntity: AppEntity {
+/// in the Shortcuts app and by Siri. Conforming to `IndexedEntity` also lets each
+/// server be indexed into Spotlight so it's searchable by name.
+struct MCPServerEntity: AppEntity, IndexedEntity {
   static let typeDisplayRepresentation = TypeDisplayRepresentation(name: "MCP Server")
   static let defaultQuery = MCPServerQuery()
 
@@ -13,6 +16,22 @@ struct MCPServerEntity: AppEntity {
 
   var displayRepresentation: DisplayRepresentation {
     DisplayRepresentation(title: "\(name)", subtitle: "\(host)", image: .init(systemName: symbol))
+  }
+
+  var attributeSet: CSSearchableItemAttributeSet {
+    let attributes = CSSearchableItemAttributeSet(contentType: .content)
+    attributes.title = name
+    attributes.contentDescription = "MCP server · \(host)"
+    attributes.keywords = ["MCP", "server", name, host]
+    return attributes
+  }
+}
+
+/// Keeps Spotlight's index in sync with the configured servers.
+enum ServerSpotlightIndexer {
+  static func reindex() async {
+    let entities = MCPServerStorage.load().map(\.entity)
+    try? await CSSearchableIndex.default().indexAppEntities(entities)
   }
 }
 

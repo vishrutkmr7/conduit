@@ -66,7 +66,7 @@ private struct KnownServerCard: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 10) {
       HStack {
-        ServerLogo(logoURLString: known.logoURLString, symbol: known.symbol, tint: known.tint, size: 40, cornerRadius: 10)
+        ServerLogo(logoURLString: known.logoURLString, host: known.host, symbol: known.symbol, tint: known.tint, size: 40, cornerRadius: 10)
         Spacer()
         if isAdded {
           Image(systemName: "checkmark.circle.fill")
@@ -79,7 +79,7 @@ private struct KnownServerCard: View {
       Text(known.summary)
         .font(.caption)
         .foregroundStyle(.secondary)
-        .lineLimit(2)
+        .lineLimit(2, reservesSpace: true)
         .frame(maxWidth: .infinity, alignment: .leading)
       Label(known.authKind == .none ? "Open access" : "Needs sign in", systemImage: known.authKind.symbol)
         .font(.caption2)
