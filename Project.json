@@ -1,0 +1,123 @@
+{
+  "configs": {
+    "Debug": "debug",
+    "Release": "release"
+  },
+  "name": "Conduit",
+  "options": {
+    "groupSortPosition": "bottom",
+    "transitivelyLinkDependencies": false
+  },
+  "settings": {
+    "CODE_SIGN_IDENTITY": "-"
+  },
+  "targets": {
+    "Conduit": {
+      "dependencies": [
+        {
+          "embed": true,
+          "target": "Conduit Widget Extension"
+        }
+      ],
+      "deploymentTarget": "26.0",
+      "entitlements": {
+        "path": "App/Conduit.entitlements",
+        "properties": {
+          "com.apple.security.app-sandbox": true,
+          "com.apple.security.network.client": true,
+          "com.apple.security.application-groups": [
+            "group.app.bitrig.new.ab738821-49ee-4307-a78e-c657a08541a1"
+          ]
+        }
+      },
+      "info": {
+        "path": "App/Info.plist",
+        "properties": {
+          "CFBundleDisplayName": "Conduit",
+          "CFBundleShortVersionString": "1.0",
+          "CFBundleVersion": "1",
+          "ITSAppUsesNonExemptEncryption": false,
+          "LSApplicationCategoryType": "public.app-category.productivity",
+          "UILaunchScreen": {},
+          "UISupportedInterfaceOrientations": [
+            "UIInterfaceOrientationPortrait",
+            "UIInterfaceOrientationPortraitUpsideDown",
+            "UIInterfaceOrientationLandscapeLeft",
+            "UIInterfaceOrientationLandscapeRight"
+          ]
+        }
+      },
+      "platform": "auto",
+      "settings": {
+        "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",
+        "ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME": "AccentColor",
+        "CURRENT_PROJECT_VERSION": "1",
+        "MARKETING_VERSION": "1.0",
+        "PRODUCT_BUNDLE_IDENTIFIER": "app.bitrig.new.ab738821-49ee-4307-a78e-c657a08541a1",
+        "PRODUCT_NAME": "$(TARGET_NAME)",
+        "SWIFT_VERSION": "5.0",
+        "TARGETED_DEVICE_FAMILY": "1,2"
+      },
+      "sources": [
+        {
+          "path": "App"
+        },
+        {
+          "path": "Shared"
+        }
+      ],
+      "supportedDestinations": [
+        "iOS",
+        "macOS"
+      ],
+      "type": "application"
+    },
+    "Conduit Widget Extension": {
+      "deploymentTarget": "26.0",
+      "entitlements": {
+        "path": "Widget Extension/Widget Extension.entitlements",
+        "properties": {
+          "com.apple.security.app-sandbox": true,
+          "com.apple.security.application-groups": [
+            "group.app.bitrig.new.ab738821-49ee-4307-a78e-c657a08541a1"
+          ]
+        }
+      },
+      "info": {
+        "path": "Widget Extension/Info.plist",
+        "properties": {
+          "CFBundleDisplayName": "Conduit Widget Extension",
+          "CFBundleShortVersionString": "1.0",
+          "CFBundleVersion": "1",
+          "ITSAppUsesNonExemptEncryption": false,
+          "NSExtension": {
+            "NSExtensionPointIdentifier": "com.apple.widgetkit-extension"
+          }
+        }
+      },
+      "platform": "auto",
+      "settings": {
+        "APPLICATION_EXTENSION_API_ONLY": "YES",
+        "CURRENT_PROJECT_VERSION": "1",
+        "MARKETING_VERSION": "1.0",
+        "PRODUCT_BUNDLE_IDENTIFIER": "app.bitrig.new.ab738821-49ee-4307-a78e-c657a08541a1.widget-extension",
+        "PRODUCT_NAME": "$(TARGET_NAME)",
+        "SKIP_INSTALL": "YES",
+        "SWIFT_VERSION": "5.0"
+      },
+      "sources": [
+        {
+          "path": "Widget Extension"
+        },
+        {
+          "path": "Shared"
+        }
+      ],
+      "supportedDestinations": [
+        "iOS",
+        "macOS"
+      ],
+      "type": "app-extension"
+    }
+  }
+}
