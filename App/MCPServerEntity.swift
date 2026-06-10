@@ -9,25 +9,36 @@ struct MCPServerEntity: AppEntity {
   var id: UUID
   var name: String
   var host: String
+  var symbol: String
 
   var displayRepresentation: DisplayRepresentation {
-    DisplayRepresentation(title: "\(name)", subtitle: "\(host)")
+    DisplayRepresentation(title: "\(name)", subtitle: "\(host)", image: .init(systemName: symbol))
   }
 }
 
 extension MCPServer {
   var entity: MCPServerEntity {
-    MCPServerEntity(id: id, name: name, host: host)
+    MCPServerEntity(id: id, name: name, host: host, symbol: symbol)
   }
 }
 
-struct MCPServerQuery: EntityQuery {
+/// The configured servers are few and stored locally, so we expose the full set
+/// to the system. Conforming to `EnumerableEntityQuery` keeps the parameterized
+/// App Shortcut phrases in sync, and `EntityStringQuery` lets Siri match a server
+/// the user names out loud.
+struct MCPServerQuery: EnumerableEntityQuery, EntityStringQuery {
+  func allEntities() async throws -> [MCPServerEntity] {
+    MCPServerStorage.load().map(\.entity)
+  }
+
   func entities(for identifiers: [UUID]) async throws -> [MCPServerEntity] {
     MCPServerStorage.load().filter { identifiers.contains($0.id) }.map(\.entity)
   }
 
-  func suggestedEntities() async throws -> [MCPServerEntity] {
-    MCPServerStorage.load().map(\.entity)
+  func entities(matching string: String) async throws -> [MCPServerEntity] {
+    MCPServerStorage.load()
+      .filter { $0.name.localizedCaseInsensitiveContains(string) || $0.host.localizedCaseInsensitiveContains(string) }
+      .map(\.entity)
   }
 
   func defaultResult() async -> MCPServerEntity? {

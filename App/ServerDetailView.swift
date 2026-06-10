@@ -1,4 +1,5 @@
 import SwiftUI
+import AppIntents
 
 struct ServerDetailView: View {
   @Environment(MCPServerStore.self) private var store
@@ -10,6 +11,7 @@ struct ServerDetailView: View {
   @State private var task = ""
   @State private var agentState: AgentState = .idle
   @State private var isShowingBrowser = false
+  @AppStorage("showsSiriTip") private var showsSiriTip = true
 
   /// Use the latest stored copy so credential edits elsewhere are reflected.
   private var current: MCPServer {
@@ -23,6 +25,7 @@ struct ServerDetailView: View {
         agentSection
         toolsSection
         connectionSection
+        shortcutsSection
       }
       .padding()
     }
@@ -158,6 +161,23 @@ struct ServerDetailView: View {
           }
           .buttonStyle(.bordered)
         }
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
+    }
+  }
+
+  private var shortcutsSection: some View {
+    GroupBox {
+      VStack(alignment: .leading, spacing: 12) {
+        Label("Siri & Shortcuts", systemImage: "wand.and.stars")
+          .font(.headline)
+        Text("Add a Conduit action to a shortcut, then pipe its result into the Apple Intelligence model action in the Shortcuts app to build your own automations.")
+          .font(.caption)
+          .foregroundStyle(.secondary)
+
+        SiriTipView(intent: RunAgentTaskIntent(), isVisible: $showsSiriTip)
+
+        ShortcutsLink()
       }
       .frame(maxWidth: .infinity, alignment: .leading)
     }

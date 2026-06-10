@@ -17,12 +17,14 @@ struct RunAgentTaskIntent: AppIntent {
     Summary("Run \(\.$task) on \(\.$server)")
   }
 
-  func perform() async throws -> some IntentResult & ProvidesDialog {
+  /// Returns the result as a value so it can be piped into other Shortcuts
+  /// actions — for example the Apple Intelligence model action.
+  func perform() async throws -> some IntentResult & ReturnsValue<String> & ProvidesDialog {
     guard let model = MCPServerStorage.load().first(where: { $0.id == server.id }) else {
       throw AppIntentError.serverMissing
     }
     let output = try await ConduitAgent.run(task: task, on: model)
-    return .result(dialog: IntentDialog(stringLiteral: output))
+    return .result(value: output, dialog: IntentDialog(stringLiteral: output))
   }
 }
 
@@ -57,8 +59,8 @@ struct ConduitShortcuts: AppShortcutsProvider {
       intent: RunAgentTaskIntent(),
       phrases: [
         "Run a task in \(.applicationName)",
-        "Ask \(.applicationName) to do something",
-        "Use \(.applicationName) to run an agent task"
+        "Run a task on \(\.$server) in \(.applicationName)",
+        "Ask \(.applicationName) to use \(\.$server)"
       ],
       shortTitle: "Run Task",
       systemImageName: "sparkles"
