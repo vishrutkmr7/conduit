@@ -11,7 +11,13 @@ struct ServerDetailView: View {
   @State private var task = ""
   @State private var agentState: AgentState = .idle
   @State private var isShowingBrowser = false
-  @AppStorage("showsSiriTip") private var showsSiriTip = true
+  /// Scoped per server so dismissing the tip on one doesn't hide it for the rest.
+  @AppStorage private var showsSiriTip: Bool
+
+  init(server: MCPServer) {
+    self.server = server
+    _showsSiriTip = AppStorage(wrappedValue: true, "showsSiriTip-\(server.id.uuidString)")
+  }
 
   /// Use the latest stored copy so credential edits elsewhere are reflected.
   private var current: MCPServer {
