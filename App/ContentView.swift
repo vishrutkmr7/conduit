@@ -51,6 +51,7 @@ struct ContentView: View {
           Button("Add Server", systemImage: "plus") {
             isAddingServer = true
           }
+          .tint(.accentColor)
         }
       }
       .sheet(isPresented: $isAddingServer) {

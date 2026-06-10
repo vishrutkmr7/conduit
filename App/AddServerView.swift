@@ -33,6 +33,7 @@ struct AddServerView: View {
         ToolbarItem(placement: .cancellationAction) {
           Button("Cancel", systemImage: "xmark") { dismiss() }
             .labelStyle(.iconOnly)
+            .tint(.accentColor)
         }
       }
     }
