@@ -66,11 +66,11 @@ struct ServerDetailView: View {
 
   private var header: some View {
     VStack(spacing: 12) {
-      ServerLogo(logoURLString: current.logoURLString, symbol: current.symbol, tint: current.tint, size: 76, cornerRadius: 18)
+      ServerLogo(logoURLString: current.logoURLString, host: current.host, symbol: current.symbol, tint: current.tint, size: 76, cornerRadius: 18)
       Text(current.host)
         .font(.callout)
         .foregroundStyle(.secondary)
-      AuthStatusPill(server: current)
+      HealthStatusPill(health: store.health(for: current))
     }
     .frame(maxWidth: .infinity)
   }
@@ -238,16 +238,15 @@ struct ServerDetailView: View {
   }
 }
 
-private struct AuthStatusPill: View {
-  let server: MCPServer
+private struct HealthStatusPill: View {
+  let health: ServerHealth
   var body: some View {
-    Label(server.isAuthenticated ? "Connected" : "Needs sign in",
-          systemImage: server.isAuthenticated ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
+    Label(health.label, systemImage: health.symbol)
       .font(.caption.weight(.medium))
       .padding(.horizontal, 12)
       .padding(.vertical, 6)
-      .background((server.isAuthenticated ? Color.green : Color.orange).opacity(0.15), in: .capsule)
-      .foregroundStyle(server.isAuthenticated ? AnyShapeStyle(.green) : AnyShapeStyle(.orange))
+      .background(health.color.opacity(0.15), in: .capsule)
+      .foregroundStyle(health.color)
   }
 }
 

@@ -12,6 +12,8 @@
 		0FE35F1B6018747A4FEAD43D /* MCPServerStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C74C506F644AAA9B4288E78 /* MCPServerStorage.swift */; };
 		29F70CE52929DE02E98A158E /* MCPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4C7243225A746787064AF0 /* MCPClient.swift */; };
 		4E87EF8F54FFBBC928AC311C /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88CFBFFE74F9B6B470F4EBA /* AppGroup.swift */; };
+		B1C2D3E4F5061728394A5B6C /* ServerHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A4B5C /* ServerHealth.swift */; };
+		C1D2E3F405162738495A6B7C /* ServerHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A4B5C /* ServerHealth.swift */; };
 		55422EE257834AE511D3C939 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6D26F1739007A0009E0920 /* ContentView.swift */; };
 		5FC7A1B149C0F775E9DC0A42 /* ConduitIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021B1C7AFB92973F65F0925D /* ConduitIntents.swift */; };
 		615CAB6CDC3AD6DD084DEC8E /* MCPServerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80158018325EFCAA3919DBD5 /* MCPServerStore.swift */; };
@@ -70,6 +72,7 @@
 		021B1C7AFB92973F65F0925D /* ConduitIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConduitIntents.swift; sourceTree = "<group>"; };
 		310362AACF5209167939536D /* MCPServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCPServer.swift; sourceTree = "<group>"; };
 		35061F8DADA32D66E3249389 /* ServerTint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerTint.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60718293A4B5C /* ServerHealth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerHealth.swift; sourceTree = "<group>"; };
 		4E6D26F1739007A0009E0920 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		509BC94553BCAD084E892393 /* AddServerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddServerView.swift; sourceTree = "<group>"; };
 		537297FB660C86F9070306F8 /* ServerDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDetailView.swift; sourceTree = "<group>"; };
@@ -116,6 +119,7 @@
 				7C74C506F644AAA9B4288E78 /* MCPServerStorage.swift */,
 				80158018325EFCAA3919DBD5 /* MCPServerStore.swift */,
 				CF2E9DA28394D6445E1CDA00 /* OpenConduitIntent.swift */,
+				A1B2C3D4E5F60718293A4B5C /* ServerHealth.swift */,
 				35061F8DADA32D66E3249389 /* ServerTint.swift */,
 			);
 			path = Shared;
@@ -255,6 +259,7 @@
 				A4DC875E22FC355B95A92078 /* MCPServerStorage.swift in Sources */,
 				8E5410A59C1C907988F402C7 /* MCPServerStore.swift in Sources */,
 				8ED46DBB1E82399AB9826A26 /* OpenConduitIntent.swift in Sources */,
+				C1D2E3F405162738495A6B7C /* ServerHealth.swift in Sources */,
 				63F9742F3CFD70D4E4F4B03F /* ServerTint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -279,6 +284,7 @@
 				A597484165BB560B49C1B9C3 /* OpenConduitIntent.swift in Sources */,
 				BECCCA3903FA83F0CCE88F84 /* ServerCard.swift in Sources */,
 				E144B95DE34046FEB12AF882 /* ServerDetailView.swift in Sources */,
+				B1C2D3E4F5061728394A5B6C /* ServerHealth.swift in Sources */,
 				0DB34D6A25F3B233E0ED17CA /* ServerLogo.swift in Sources */,
 				0E81D832C4416E83FBF5D846 /* ServerSetupView.swift in Sources */,
 				AC63F5F3A0D33FF2D7C32507 /* ServerTint.swift in Sources */,

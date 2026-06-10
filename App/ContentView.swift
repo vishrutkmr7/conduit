@@ -5,7 +5,7 @@ struct ContentView: View {
   @State private var isAddingServer = false
   @State private var layout: ServerLayout = .grid
 
-  private let columns = [GridItem(.adaptive(minimum: 160), spacing: 16)]
+  private let columns = [GridItem(.adaptive(minimum: 160), spacing: 16, alignment: .top)]
 
   var body: some View {
     NavigationStack {
@@ -13,10 +13,10 @@ struct ContentView: View {
         if store.servers.isEmpty {
           emptyState
         } else if layout == .grid {
-          LazyVGrid(columns: columns, spacing: 16) {
+          LazyVGrid(columns: columns, alignment: .leading, spacing: 16) {
             ForEach(store.servers) { server in
               NavigationLink(value: server) {
-                ServerCard(server: server)
+                ServerCard(server: server, health: store.health(for: server))
               }
               .buttonStyle(.plain)
             }
@@ -26,7 +26,7 @@ struct ContentView: View {
           LazyVStack(spacing: 12) {
             ForEach(store.servers) { server in
               NavigationLink(value: server) {
-                ServerRow(server: server)
+                ServerRow(server: server, health: store.health(for: server))
               }
               .buttonStyle(.plain)
             }
@@ -35,6 +35,8 @@ struct ContentView: View {
         }
       }
       .navigationTitle("Conduit")
+      .refreshable { await store.refreshHealth() }
+      .task(id: store.servers) { await store.refreshHealth() }
       .navigationDestination(for: MCPServer.self) { server in
         ServerDetailView(server: server)
       }

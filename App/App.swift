@@ -11,11 +11,13 @@ struct ConduitApp: App {
       ContentView()
         .environment(store)
         .task(id: store.servers) {
-          // Refresh the per-server App Shortcut phrases, debouncing rapid edits
-          // so frequent server changes don't repeatedly hit the main actor.
+          // Refresh the per-server App Shortcut phrases and Spotlight index,
+          // debouncing rapid edits so frequent server changes don't repeatedly
+          // hit the main actor.
           try? await Task.sleep(for: .milliseconds(500))
           guard !Task.isCancelled else { return }
           ConduitShortcuts.updateAppShortcutParameters()
+          await ServerSpotlightIndexer.reindex()
         }
         .onChange(of: scenePhase) { _, phase in
           // App Intents write directly to shared storage, so refresh on activation.
