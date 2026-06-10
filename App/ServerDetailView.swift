@@ -1,4 +1,5 @@
 import SwiftUI
+import AppIntents
 
 struct ServerDetailView: View {
   @Environment(MCPServerStore.self) private var store
@@ -10,10 +11,24 @@ struct ServerDetailView: View {
   @State private var task = ""
   @State private var agentState: AgentState = .idle
   @State private var isShowingBrowser = false
+  /// Scoped per server so dismissing the tip on one doesn't hide it for the rest.
+  @AppStorage private var showsSiriTip: Bool
+
+  init(server: MCPServer) {
+    self.server = server
+    _showsSiriTip = AppStorage(wrappedValue: true, "showsSiriTip-\(server.id.uuidString)")
+  }
 
   /// Use the latest stored copy so credential edits elsewhere are reflected.
   private var current: MCPServer {
     store.servers.first { $0.id == server.id } ?? server
+  }
+
+  /// A run intent preconfigured with this server so the Siri tip is scoped to it.
+  private var runIntent: RunAgentTaskIntent {
+    let intent = RunAgentTaskIntent()
+    intent.server = current.entity
+    return intent
   }
 
   var body: some View {
@@ -23,6 +38,7 @@ struct ServerDetailView: View {
         agentSection
         toolsSection
         connectionSection
+        shortcutsSection
       }
       .padding()
     }
@@ -158,6 +174,23 @@ struct ServerDetailView: View {
           }
           .buttonStyle(.bordered)
         }
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
+    }
+  }
+
+  private var shortcutsSection: some View {
+    GroupBox {
+      VStack(alignment: .leading, spacing: 12) {
+        Label("Siri & Shortcuts", systemImage: "wand.and.stars")
+          .font(.headline)
+        Text("Add a Conduit action to a shortcut, then pipe its result into the Apple Intelligence model action in the Shortcuts app to build your own automations.")
+          .font(.caption)
+          .foregroundStyle(.secondary)
+
+        SiriTipView(intent: runIntent, isVisible: $showsSiriTip)
+
+        ShortcutsLink()
       }
       .frame(maxWidth: .infinity, alignment: .leading)
     }

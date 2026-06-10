@@ -51,6 +51,7 @@ struct ContentView: View {
           Button("Add Server", systemImage: "plus") {
             isAddingServer = true
           }
+          .tint(.accentColor)
         }
       }
       .sheet(isPresented: $isAddingServer) {
@@ -68,7 +69,9 @@ struct ContentView: View {
       Button("Add a Server", systemImage: "plus") {
         isAddingServer = true
       }
-      .buttonStyle(.borderedProminent)
+      .buttonStyle(.glassProminent)
+      .controlSize(.large)
+      .tint(.teal)
     }
     .padding(.top, 80)
   }
