@@ -24,7 +24,9 @@ nonisolated struct ConduitRepository {
     let descriptor = FetchDescriptor<MCPServerRecord>(
       sortBy: [SortDescriptor(\.dateAdded), SortDescriptor(\.name)]
     )
-    return (try? context.fetch(descriptor))?.map { $0.snapshot(includeCredential: includeCredentials) } ?? []
+    let records = (try? context.fetch(descriptor)) ?? []
+    return canonicalServerRecords(records)
+      .map { $0.snapshot(includeCredential: includeCredentials) }
   }
 
   func saveServers(_ servers: [MCPServer]) {
@@ -80,13 +82,14 @@ nonisolated struct ConduitRepository {
       predicate: #Predicate { $0.serverID == serverID },
       sortBy: [SortDescriptor(\.name)]
     )
-    return (try? context.fetch(descriptor))?.map(\.snapshot) ?? []
+    let records = (try? context.fetch(descriptor)) ?? []
+    return canonicalToolRecords(records).map(\.snapshot)
   }
 
   func tool(id: String) -> MCPTool? {
     let context = migratedContext()
     let descriptor = FetchDescriptor<MCPToolRecord>(predicate: #Predicate { $0.id == id })
-    return (try? context.fetch(descriptor))?.first?.snapshot
+    return canonicalToolRecords((try? context.fetch(descriptor)) ?? []).first?.snapshot
   }
 
   func replaceTools(_ tools: [MCPTool], for serverID: UUID) {
@@ -101,7 +104,13 @@ nonisolated struct ConduitRepository {
   func healthRecords() -> [UUID: ServerHealthRecord] {
     let context = migratedContext()
     let records = (try? context.fetch(FetchDescriptor<ServerHealthModel>())) ?? []
-    return Dictionary(uniqueKeysWithValues: records.map { ($0.serverID, $0.snapshot) })
+    return records.reduce(into: [UUID: ServerHealthRecord]()) { result, record in
+      let snapshot = record.snapshot
+      if let existing = result[record.serverID], existing.checkedAt > snapshot.checkedAt {
+        return
+      }
+      result[record.serverID] = snapshot
+    }
   }
 
   func setHealthRecords(_ records: [UUID: ServerHealthRecord]) {
@@ -183,7 +192,8 @@ nonisolated struct ConduitRepository {
   }
 
   private func fetchServerRecord(id: UUID, context: ModelContext) -> MCPServerRecord? {
-    let descriptor = FetchDescriptor<MCPServerRecord>(predicate: #Predicate { $0.id == id })
+    var descriptor = FetchDescriptor<MCPServerRecord>(predicate: #Predicate { $0.id == id })
+    descriptor.sortBy = [SortDescriptor(\.updatedAt, order: .reverse)]
     return try? context.fetch(descriptor).first
   }
 
@@ -200,8 +210,39 @@ nonisolated struct ConduitRepository {
   }
 
   private func deleteHealth(for serverID: UUID, context: ModelContext) {
-    if let record = fetchHealth(serverID: serverID, context: context) {
+    let descriptor = FetchDescriptor<ServerHealthModel>(predicate: #Predicate { $0.serverID == serverID })
+    for record in (try? context.fetch(descriptor)) ?? [] {
       context.delete(record)
+    }
+  }
+
+  private func canonicalServerRecords(_ records: [MCPServerRecord]) -> [MCPServerRecord] {
+    var byID: [UUID: MCPServerRecord] = [:]
+    for record in records {
+      if let existing = byID[record.id], existing.updatedAt > record.updatedAt {
+        continue
+      }
+      byID[record.id] = record
+    }
+    return byID.values.sorted {
+      if $0.dateAdded == $1.dateAdded {
+        $0.name.localizedStandardCompare($1.name) == .orderedAscending
+      } else {
+        $0.dateAdded < $1.dateAdded
+      }
+    }
+  }
+
+  private func canonicalToolRecords(_ records: [MCPToolRecord]) -> [MCPToolRecord] {
+    var byID: [String: MCPToolRecord] = [:]
+    for record in records {
+      if let existing = byID[record.id], existing.lastSeenAt > record.lastSeenAt {
+        continue
+      }
+      byID[record.id] = record
+    }
+    return byID.values.sorted {
+      $0.name.localizedStandardCompare($1.name) == .orderedAscending
     }
   }
 }

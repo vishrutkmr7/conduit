@@ -128,8 +128,8 @@
 		7D6AFFFA7AB715A41C009E73 /* WebBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebBrowserView.swift; sourceTree = "<group>"; };
 		80158018325EFCAA3919DBD5 /* MCPServerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCPServerStore.swift; sourceTree = "<group>"; };
 		810FCF34AEB53EC060E2495D /* ServerSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSetupView.swift; sourceTree = "<group>"; };
-		88B674D34AA0B3A2BF10A5C9 /* ConduitAppIntentsTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = ConduitAppIntentsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8BB5CB911079E96F05F55FD3 /* ConduitTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = ConduitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		88B674D34AA0B3A2BF10A5C9 /* ConduitAppIntentsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConduitAppIntentsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8BB5CB911079E96F05F55FD3 /* ConduitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConduitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		90786788DDA3142F9378A276 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		9982CBF9C1A5017892AB6426 /* KnownServers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnownServers.swift; sourceTree = "<group>"; };
 		9C33AF3006F54A0E5DB52856 /* ConduitControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConduitControl.swift; sourceTree = "<group>"; };
@@ -139,7 +139,7 @@
 		A0A88E30644E6F437DE08B64 /* ConduitKeychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConduitKeychain.swift; sourceTree = "<group>"; };
 		A2CF213E510E669CFFC40C8A /* ConduitRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConduitRepository.swift; sourceTree = "<group>"; };
 		AF53FC17DE111C98251B9484 /* ConduitRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConduitRepositoryTests.swift; sourceTree = "<group>"; };
-		B19FD6A03F04FA7B8F61C67B /* Conduit.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Conduit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B19FD6A03F04FA7B8F61C67B /* Conduit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Conduit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3152247EF1AB5B9F28F2FAF /* ConduitWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConduitWidgetBundle.swift; sourceTree = "<group>"; };
 		BC4C7243225A746787064AF0 /* MCPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCPClient.swift; sourceTree = "<group>"; };
 		BDAB4512479AF12127191E81 /* MCPTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCPTool.swift; sourceTree = "<group>"; };
@@ -148,7 +148,7 @@
 		CC65FF644683F4E3D2DAC148 /* ServerLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerLogo.swift; sourceTree = "<group>"; };
 		CF2E9DA28394D6445E1CDA00 /* OpenConduitIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenConduitIntent.swift; sourceTree = "<group>"; };
 		DB484C1B2560ED25A75EC7A0 /* ShortcutIdea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutIdea.swift; sourceTree = "<group>"; };
-		DE70F7FEA3FE772D070CEA22 /* Conduit Widget Extension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = "Conduit Widget Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE70F7FEA3FE772D070CEA22 /* Conduit Widget Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Conduit Widget Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7EB510E86954D0E801085E8 /* HealthStatusLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStatusLabel.swift; sourceTree = "<group>"; };
 		E88CFBFFE74F9B6B470F4EBA /* AppGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroup.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -492,6 +492,7 @@
 				CODE_SIGN_ENTITLEMENTS = App/Conduit.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3F634L5D2A;
 				INFOPLIST_FILE = App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -518,7 +519,10 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_ENTITLEMENTS = "Widget Extension/Widget Extension.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3F634L5D2A;
 				INFOPLIST_FILE = "Widget Extension/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -529,6 +533,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "app.bitrig.vishrutjha.conduit.widget-extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -601,6 +606,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3F634L5D2A;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -609,6 +617,7 @@
 					"@loader_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "app.bitrig.vishrutjha.conduit.appintents-tests";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
@@ -683,6 +692,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3F634L5D2A;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -691,6 +703,7 @@
 					"@loader_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.bitrig.vishrutjha.conduit.tests;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
@@ -703,6 +716,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3F634L5D2A;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -711,6 +727,7 @@
 					"@loader_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "app.bitrig.vishrutjha.conduit.appintents-tests";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
@@ -723,6 +740,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3F634L5D2A;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -731,6 +751,7 @@
 					"@loader_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.bitrig.vishrutjha.conduit.tests;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
@@ -744,7 +765,10 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_ENTITLEMENTS = "Widget Extension/Widget Extension.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3F634L5D2A;
 				INFOPLIST_FILE = "Widget Extension/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -755,6 +779,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "app.bitrig.vishrutjha.conduit.widget-extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -776,6 +801,7 @@
 				CODE_SIGN_ENTITLEMENTS = App/Conduit.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3F634L5D2A;
 				INFOPLIST_FILE = App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				LD_RUNPATH_SEARCH_PATHS = (

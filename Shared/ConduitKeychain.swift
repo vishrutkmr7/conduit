@@ -12,7 +12,19 @@ nonisolated enum ConduitKeychain {
   private static let service = "app.bitrig.vishrutjha.conduit.credentials"
 
   static func credential(for account: String) -> String? {
-    var query: [String: Any] = baseQuery(account: account)
+    if let credential = credential(for: account, synchronizable: true) {
+      return credential
+    }
+
+    guard let localCredential = credential(for: account, synchronizable: false) else {
+      return nil
+    }
+    setCredential(localCredential, for: account)
+    return localCredential
+  }
+
+  private static func credential(for account: String, synchronizable: Bool) -> String? {
+    var query = baseQuery(account: account, synchronizable: synchronizable)
     query[kSecReturnData as String] = true
     query[kSecMatchLimit as String] = kSecMatchLimitOne
 
@@ -29,30 +41,39 @@ nonisolated enum ConduitKeychain {
     }
 
     let data = Data(credential.utf8)
-    let query = baseQuery(account: account)
+    deleteLocalCredential(for: account)
+
+    let query = baseQuery(account: account, synchronizable: true)
     let attributes: [String: Any] = [
       kSecValueData as String: data,
-      kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+      kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlock
     ]
 
     let status = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
     if status == errSecItemNotFound {
       var item = query
       item[kSecValueData as String] = data
-      item[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+      item[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlock
       SecItemAdd(item as CFDictionary, nil)
     }
   }
 
   static func deleteCredential(for account: String) {
-    SecItemDelete(baseQuery(account: account) as CFDictionary)
+    SecItemDelete(baseQuery(account: account, synchronizable: true) as CFDictionary)
+    deleteLocalCredential(for: account)
   }
 
-  private static func baseQuery(account: String) -> [String: Any] {
-    [
+  private static func deleteLocalCredential(for account: String) {
+    SecItemDelete(baseQuery(account: account, synchronizable: false) as CFDictionary)
+  }
+
+  private static func baseQuery(account: String, synchronizable: Bool) -> [String: Any] {
+    var query: [String: Any] = [
       kSecClass as String: kSecClassGenericPassword,
       kSecAttrService as String: service,
       kSecAttrAccount as String: account
     ]
+    query[kSecAttrSynchronizable as String] = synchronizable
+    return query
   }
 }

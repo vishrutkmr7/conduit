@@ -12,16 +12,17 @@ import SwiftData
 final class MCPServerRecord {
   #Index<MCPServerRecord>([\.id], [\.name], [\.urlString], [\.dateAdded])
 
-  var id: UUID
-  var name: String
-  var urlString: String
-  var symbol: String
+  var id: UUID = UUID()
+  var name: String = ""
+  var urlString: String = ""
+  var symbol: String = "server.rack"
   var logoURLString: String?
-  var authKindRawValue: String
+  var authKindRawValue: String = MCPAuthKind.none.rawValue
   var credentialReference: String?
-  var headerName: String
-  var isCustom: Bool
-  var dateAdded: Date
+  var headerName: String = "Authorization"
+  var isCustom: Bool = true
+  var dateAdded: Date = Date.now
+  var updatedAt: Date = Date.now
 
   init(server: MCPServer) {
     id = server.id
@@ -34,6 +35,7 @@ final class MCPServerRecord {
     headerName = server.headerName
     isCustom = server.isCustom
     dateAdded = server.dateAdded
+    updatedAt = Date.now
   }
 
   func update(from server: MCPServer) {
@@ -46,6 +48,7 @@ final class MCPServerRecord {
     headerName = server.headerName
     isCustom = server.isCustom
     dateAdded = server.dateAdded
+    updatedAt = Date.now
   }
 
   func snapshot(includeCredential: Bool) -> MCPServer {
@@ -71,13 +74,13 @@ final class MCPServerRecord {
 final class MCPToolRecord {
   #Index<MCPToolRecord>([\.id], [\.serverID], [\.name], [\.lastSeenAt])
 
-  var id: String
-  var serverID: UUID
-  var name: String
-  var toolSummary: String
+  var id: String = ""
+  var serverID: UUID = UUID()
+  var name: String = ""
+  var toolSummary: String = ""
   var schema: String?
-  var riskRawValue: String
-  var lastSeenAt: Date
+  var riskRawValue: String = MCPToolRisk.unknown.rawValue
+  var lastSeenAt: Date = Date.now
 
   init(serverID: UUID, tool: MCPTool) {
     id = "\(serverID.uuidString)|\(tool.name)"
@@ -113,9 +116,9 @@ final class MCPToolRecord {
 final class ServerHealthModel {
   #Index<ServerHealthModel>([\.serverID], [\.checkedAt])
 
-  var serverID: UUID
-  var healthRawValue: String
-  var checkedAt: Date
+  var serverID: UUID = UUID()
+  var healthRawValue: String = ServerHealth.unknown.rawValue
+  var checkedAt: Date = Date.now
   var detail: String?
   var toolCount: Int?
 
@@ -148,8 +151,8 @@ final class ServerHealthModel {
 final class ConduitMigrationRecord {
   #Index<ConduitMigrationRecord>([\.id])
 
-  var id: String
-  var completedAt: Date
+  var id: String = ""
+  var completedAt: Date = Date.now
 
   init(id: String, completedAt: Date = .now) {
     self.id = id

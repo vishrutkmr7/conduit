@@ -23,10 +23,17 @@
       "entitlements": {
         "path": "App/Conduit.entitlements",
         "properties": {
+          "aps-environment": "development",
           "com.apple.security.app-sandbox": true,
           "com.apple.security.network.client": true,
           "com.apple.security.application-groups": [
             "group.app.bitrig.vishrutjha.conduit"
+          ],
+          "com.apple.developer.icloud-container-identifiers": [
+            "iCloud.app.bitrig.vishrutjha.conduit"
+          ],
+          "com.apple.developer.icloud-services": [
+            "CloudKit"
           ]
         }
       },
@@ -39,6 +46,9 @@
           "ITSAppUsesNonExemptEncryption": false,
           "LSApplicationCategoryType": "public.app-category.productivity",
           "UILaunchScreen": {},
+          "UIBackgroundModes": [
+            "remote-notification"
+          ],
           "UISupportedInterfaceOrientations": [
             "UIInterfaceOrientationPortrait",
             "UIInterfaceOrientationPortraitUpsideDown",
@@ -81,6 +91,12 @@
           "com.apple.security.app-sandbox": true,
           "com.apple.security.application-groups": [
             "group.app.bitrig.vishrutjha.conduit"
+          ],
+          "com.apple.developer.icloud-container-identifiers": [
+            "iCloud.app.bitrig.vishrutjha.conduit"
+          ],
+          "com.apple.developer.icloud-services": [
+            "CloudKit"
           ]
         }
       },

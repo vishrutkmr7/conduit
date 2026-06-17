@@ -20,18 +20,25 @@ nonisolated enum ConduitModelContainer {
     do {
       return try makeContainer()
     } catch {
-      return try! makeContainer(isStoredInMemoryOnly: true)
+      do {
+        return try makeContainer(cloudKitEnabled: false)
+      } catch {
+        return try! makeContainer(isStoredInMemoryOnly: true, cloudKitEnabled: false)
+      }
     }
   }()
 
-  static func makeContainer(isStoredInMemoryOnly: Bool = false) throws -> ModelContainer {
+  static func makeContainer(
+    isStoredInMemoryOnly: Bool = false,
+    cloudKitEnabled: Bool = true
+  ) throws -> ModelContainer {
     let configuration = ModelConfiguration(
       "Conduit",
       schema: schema,
       isStoredInMemoryOnly: isStoredInMemoryOnly,
       allowsSave: true,
       groupContainer: .identifier(AppGroup.id),
-      cloudKitDatabase: .none
+      cloudKitDatabase: cloudKitEnabled && !isStoredInMemoryOnly ? .automatic : .none
     )
     return try ModelContainer(for: schema, configurations: [configuration])
   }
