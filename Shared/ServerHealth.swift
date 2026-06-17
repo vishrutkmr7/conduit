@@ -2,9 +2,16 @@ import Foundation
 import SwiftUI
 import WidgetKit
 
+//
+//  ServerHealth.swift
+//  Conduit
+//
+//  Created by Vishrut Jha on 6/16/26.
+//
+
 /// Connection health for a server, surfaced as a colored status dot in the app
 /// and the widgets. Green = connected, yellow = needs attention, red = issue.
-enum ServerHealth: String, Codable, Sendable {
+nonisolated enum ServerHealth: String, Codable, Sendable {
   case unknown    // gray — never checked yet
   case connected  // green — reachable and ready
   case needsAuth  // yellow — missing or incomplete credentials
@@ -39,7 +46,7 @@ enum ServerHealth: String, Codable, Sendable {
 }
 
 /// A single health reading for a server, with the time it was taken.
-struct ServerHealthRecord: Codable, Sendable {
+nonisolated struct ServerHealthRecord: Codable, Sendable {
   var health: ServerHealth
   var checkedAt: Date
   var detail: String?
@@ -50,51 +57,49 @@ struct ServerHealthRecord: Codable, Sendable {
 
 /// Shared persistence for the latest health reading of each server, written by the
 /// app and read by the widgets. Keyed by server id so the widget can color each tile.
-enum ServerHealthStore {
+nonisolated enum ServerHealthStore {
   static let key = "server_health"
+  private static let repository = ConduitRepository()
 
   static func load() -> [UUID: ServerHealthRecord] {
-    guard let data = AppGroup.defaults.data(forKey: key) else { return [:] }
-    return (try? JSONDecoder().decode([UUID: ServerHealthRecord].self, from: data)) ?? [:]
+    repository.healthRecords()
   }
 
   static func record(for id: UUID) -> ServerHealthRecord? { load()[id] }
 
   static func set(_ record: ServerHealthRecord, for id: UUID) {
-    var all = load()
-    all[id] = record
-    save(all)
+    repository.setHealthRecords([id: record])
+    WidgetCenter.shared.reloadAllTimelines()
   }
 
   static func save(_ records: [UUID: ServerHealthRecord]) {
-    if let data = try? JSONEncoder().encode(records) {
-      AppGroup.defaults.set(data, forKey: key)
-    }
+    repository.setHealthRecords(records)
     WidgetCenter.shared.reloadAllTimelines()
   }
 
   /// Drops readings for servers that no longer exist.
   static func prune(keeping ids: [UUID]) {
-    let all = load()
-    let kept = all.filter { ids.contains($0.key) }
-    if kept.count != all.count { save(kept) }
+    repository.pruneHealth(keeping: ids)
+    WidgetCenter.shared.reloadAllTimelines()
   }
 }
 
 /// Performs lightweight connection checks and records the result so the colored
 /// status follows the server's real reachability rather than just its credentials.
-enum ServerHealthChecker {
+nonisolated enum ServerHealthChecker {
   @discardableResult
-  static func check(_ server: MCPServer) async -> ServerHealth {
+  static func check(_ server: MCPServer) async -> (UUID, ServerHealthRecord, [MCPTool]) {
     let health: ServerHealth
     var detail: String?
     var toolCount: Int?
+    var discoveredTools: [MCPTool] = []
 
     if !server.isAuthenticated {
       health = .needsAuth
     } else {
       do {
         let tools = try await MCPClient(server: server).listTools()
+        discoveredTools = tools
         toolCount = tools.count
         health = .connected
       } catch {
@@ -103,20 +108,34 @@ enum ServerHealthChecker {
       }
     }
 
-    ServerHealthStore.set(
+    return (
+      server.id,
       ServerHealthRecord(health: health, checkedAt: .now, detail: detail, toolCount: toolCount),
-      for: server.id
+      discoveredTools
     )
-    return health
   }
 
   /// Checks every server in parallel, then prunes stale readings.
   static func checkAll(_ servers: [MCPServer]) async {
-    await withTaskGroup(of: Void.self) { group in
+    let (records, toolsByServer) = await withTaskGroup(of: (UUID, ServerHealthRecord, [MCPTool]).self) { group in
       for server in servers {
-        group.addTask { _ = await check(server) }
+        group.addTask { await check(server) }
       }
+
+      var records: [UUID: ServerHealthRecord] = [:]
+      var toolsByServer: [UUID: [MCPTool]] = [:]
+      for await (id, record, tools) in group {
+        records[id] = record
+        if !tools.isEmpty {
+          toolsByServer[id] = tools
+        }
+      }
+      return (records, toolsByServer)
     }
+    for (serverID, tools) in toolsByServer {
+      MCPServerStorage.replaceTools(tools, for: serverID)
+    }
+    ServerHealthStore.save(records)
     ServerHealthStore.prune(keeping: servers.map(\.id))
   }
 }

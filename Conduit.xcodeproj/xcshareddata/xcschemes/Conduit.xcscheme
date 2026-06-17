@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "2700"
+   LastUpgradeVersion = "1430"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES"
-      buildArchitectures = "Automatic">
+      runPostActionsOnFailure = "NO">
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
@@ -17,6 +17,21 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F2F0EF9837007F3B2B0424C4"
                BuildableName = "Conduit.app"
+               BlueprintName = "Conduit"
+               ReferencedContainer = "container:Conduit.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A04513F6748A5372A9576141"
+               BuildableName = "Conduit Widget Extension.appex"
+               BlueprintName = "Conduit Widget Extension"
                ReferencedContainer = "container:Conduit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -27,7 +42,42 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
-      shouldAutocreateTestPlan = "YES">
+      onlyGenerateCoverageForSpecifiedTargets = "NO">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "F2F0EF9837007F3B2B0424C4"
+            BuildableName = "Conduit.app"
+            BlueprintName = "Conduit"
+            ReferencedContainer = "container:Conduit.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9F6F1A3784181A4D57F00B52"
+               BuildableName = "ConduitTests.xctest"
+               BlueprintName = "ConduitTests"
+               ReferencedContainer = "container:Conduit.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "3DA69F7BA7EF63A477BDBAA0"
+               BuildableName = "ConduitAppIntentsTests.xctest"
+               BlueprintName = "ConduitAppIntentsTests"
+               ReferencedContainer = "container:Conduit.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
+      <CommandLineArguments>
+      </CommandLineArguments>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -38,17 +88,19 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      allowLocationSimulation = "YES"
-      queueDebuggingEnabled = "No">
+      allowLocationSimulation = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F2F0EF9837007F3B2B0424C4"
             BuildableName = "Conduit.app"
+            BlueprintName = "Conduit"
             ReferencedContainer = "container:Conduit.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+      </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -62,6 +114,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F2F0EF9837007F3B2B0424C4"
             BuildableName = "Conduit.app"
+            BlueprintName = "Conduit"
             ReferencedContainer = "container:Conduit.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

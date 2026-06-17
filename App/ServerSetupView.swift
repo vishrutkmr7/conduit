@@ -1,3 +1,10 @@
+//
+//  ServerSetupView.swift
+//  Conduit
+//
+//  Created by Vishrut Jha on 6/16/26.
+//
+
 import SwiftUI
 
 /// Configure and authenticate a known MCP server before adding it.

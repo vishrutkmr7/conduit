@@ -1,9 +1,18 @@
 import FoundationModels
 
+//
+//  ShortcutIdea.swift
+//  Conduit
+//
+//  Created by Vishrut Jha on 6/16/26.
+//
+
 /// A single suggested task the on-device model brainstorms from a server's tools.
 /// Shown as a tappable suggestion that prefills the agent prompt.
 @Generable
-struct ShortcutIdea: Equatable {
+struct ShortcutIdea: Identifiable, Equatable {
+  var id: String { "\(title)|\(prompt)" }
+
   @Guide(description: "A short, action-oriented title of 2 to 5 words.")
   var title: String
 

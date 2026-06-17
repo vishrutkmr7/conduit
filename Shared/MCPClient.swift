@@ -1,15 +1,23 @@
 import Foundation
 
-/// A description of a tool advertised by a remote MCP server.
-struct MCPTool: Identifiable, Hashable, Sendable {
-  var id: String { name }
-  var name: String
-  var description: String
-  /// Raw JSON schema string for the tool's arguments, when provided.
-  var schema: String?
+//
+//  MCPClient.swift
+//  Conduit
+//
+//  Created by Vishrut Jha on 6/16/26.
+//
+
+nonisolated protocol MCPTransport: Sendable {
+  func data(for request: URLRequest) async throws -> (Data, URLResponse)
 }
 
-enum MCPClientError: LocalizedError {
+nonisolated struct URLSessionMCPTransport: MCPTransport {
+  func data(for request: URLRequest) async throws -> (Data, URLResponse) {
+    try await URLSession.shared.data(for: request)
+  }
+}
+
+nonisolated enum MCPClientError: LocalizedError, Equatable {
   case badURL
   case transport(String)
   case rpc(String)
@@ -25,63 +33,93 @@ enum MCPClientError: LocalizedError {
   }
 }
 
-/// Minimal client for the MCP "streamable HTTP" transport: JSON-RPC requests are
-/// POSTed to the endpoint and responses arrive as JSON or an SSE stream.
+private nonisolated struct JSONRPCRequest: Encodable {
+  var jsonrpc = "2.0"
+  var id: Int?
+  var method: String
+  var params: JSONValue
+}
+
+nonisolated struct JSONRPCResponse: Decodable {
+  var result: JSONValue?
+  var error: JSONRPCError?
+}
+
+nonisolated struct JSONRPCError: Decodable {
+  var message: String
+}
+
+/// Minimal client for the MCP streamable-HTTP transport.
 actor MCPClient {
   private let server: MCPServer
+  private let transport: any MCPTransport
   private var sessionID: String?
   private var nextID = 1
 
-  init(server: MCPServer) {
+  init(server: MCPServer, transport: any MCPTransport = URLSessionMCPTransport()) {
     self.server = server
+    self.transport = transport
   }
 
   /// Connects, negotiates a session, and returns the tools the server exposes.
   func listTools() async throws -> [MCPTool] {
     try await initializeIfNeeded()
-    let result = try await send(method: "tools/list", params: [:])
-    guard let tools = result["tools"] as? [[String: Any]] else { return [] }
-    return tools.map { tool in
-      let schemaData = (tool["inputSchema"]).flatMap { try? JSONSerialization.data(withJSONObject: $0) }
+    let result = try await send(method: "tools/list", params: .object([:]))
+    guard let tools = result.objectValue?["tools"]?.arrayValue else { return [] }
+    return tools.compactMap { tool in
+      guard let object = tool.objectValue else { return nil }
+      let name = object["name"]?.stringValue ?? "tool"
+      let summary = object["description"]?.stringValue ?? ""
       return MCPTool(
-        name: tool["name"] as? String ?? "tool",
-        description: tool["description"] as? String ?? "",
-        schema: schemaData.flatMap { String(data: $0, encoding: .utf8) }
+        serverID: server.id,
+        name: name,
+        summary: summary,
+        schema: object["inputSchema"]?.prettyPrinted()
       )
     }
   }
 
-  /// Calls a tool with the given arguments and returns its textual result.
-  func callTool(_ name: String, arguments: [String: Any]) async throws -> String {
+  /// Calls a tool with a JSON object string and returns its textual result.
+  func callTool(_ name: String, argumentsJSON: String) async throws -> String {
     try await initializeIfNeeded()
-    let result = try await send(method: "tools/call", params: [
-      "name": name,
-      "arguments": arguments
-    ])
-    guard let content = result["content"] as? [[String: Any]] else {
-      return Self.prettyPrinted(result)
-    }
-    let text = content.compactMap { $0["text"] as? String }.joined(separator: "\n")
-    return text.isEmpty ? Self.prettyPrinted(result) : text
-  }
+    let raw = argumentsJSON.trimmingCharacters(in: .whitespacesAndNewlines)
+    let arguments = try JSONValue.parseObject(raw.isEmpty ? "{}" : raw)
+    let result = try await send(
+      method: "tools/call",
+      params: .object([
+        "name": .string(name),
+        "arguments": arguments
+      ])
+    )
 
-  // MARK: - Transport
+    guard let content = result.objectValue?["content"]?.arrayValue else {
+      return result.prettyPrinted()
+    }
+
+    let text = content.compactMap { $0.objectValue?["text"]?.stringValue }.joined(separator: "\n")
+    return text.isEmpty ? result.prettyPrinted() : text
+  }
 
   private func initializeIfNeeded() async throws {
     guard sessionID == nil else { return }
-    _ = try await send(method: "initialize", params: [
-      "protocolVersion": "2025-06-18",
-      "capabilities": [:],
-      "clientInfo": ["name": "Conduit", "version": "1.0"]
-    ])
-    // Notify the server that initialization is complete (fire-and-forget).
+    _ = try await send(
+      method: "initialize",
+      params: .object([
+        "protocolVersion": .string("2025-06-18"),
+        "capabilities": .object([:]),
+        "clientInfo": .object([
+          "name": .string("Conduit"),
+          "version": .string("1.0")
+        ])
+      ])
+    )
     try? await notify(method: "notifications/initialized")
   }
 
-  private func send(method: String, params: [String: Any]) async throws -> [String: Any] {
+  private func send(method: String, params: JSONValue) async throws -> JSONValue {
     let id = nextID
     nextID += 1
-    let body: [String: Any] = ["jsonrpc": "2.0", "id": id, "method": method, "params": params]
+    let body = JSONRPCRequest(id: id, method: method, params: params)
     let (data, response) = try await perform(body: body)
 
     if let http = response as? HTTPURLResponse,
@@ -89,20 +127,22 @@ actor MCPClient {
       sessionID = session
     }
 
-    guard let json = Self.decodeRPC(data) else { throw MCPClientError.decoding }
-    if let error = json["error"] as? [String: Any] {
-      throw MCPClientError.rpc(error["message"] as? String ?? "Unknown server error.")
+    let decoded = try Self.decodeRPC(data)
+    if let error = decoded.error {
+      throw MCPClientError.rpc(error.message)
     }
-    return json["result"] as? [String: Any] ?? [:]
+    return decoded.result ?? .object([:])
   }
 
   private func notify(method: String) async throws {
-    let body: [String: Any] = ["jsonrpc": "2.0", "method": method]
+    let body = JSONRPCRequest(id: nil, method: method, params: .object([:]))
     _ = try await perform(body: body)
   }
 
-  private func perform(body: [String: Any]) async throws -> (Data, URLResponse) {
+  private func perform(body: JSONRPCRequest) async throws -> (Data, URLResponse) {
+    try Task.checkCancellation()
     guard let url = server.url else { throw MCPClientError.badURL }
+
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
     request.timeoutInterval = 30
@@ -112,14 +152,16 @@ actor MCPClient {
       request.setValue(sessionID, forHTTPHeaderField: "Mcp-Session-Id")
     }
     applyAuth(to: &request)
-    request.httpBody = try JSONSerialization.data(withJSONObject: body)
+    request.httpBody = try JSONEncoder().encode(body)
 
     do {
-      let (data, response) = try await URLSession.shared.data(for: request)
+      let (data, response) = try await transport.data(for: request)
       if let http = response as? HTTPURLResponse, http.statusCode >= 400 {
         throw MCPClientError.transport("Server responded with status \(http.statusCode).")
       }
       return (data, response)
+    } catch is CancellationError {
+      throw CancellationError()
     } catch let error as MCPClientError {
       throw error
     } catch {
@@ -141,30 +183,19 @@ actor MCPClient {
     }
   }
 
-  // MARK: - Parsing
-
-  /// Handles both a plain JSON-RPC body and an SSE stream containing `data:` lines.
-  private static func decodeRPC(_ data: Data) -> [String: Any]? {
-    if let object = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
-      return object
+  static func decodeRPC(_ data: Data) throws -> JSONRPCResponse {
+    if let response = try? JSONDecoder().decode(JSONRPCResponse.self, from: data) {
+      return response
     }
-    guard let text = String(data: data, encoding: .utf8) else { return nil }
+    guard let text = String(data: data, encoding: .utf8) else { throw MCPClientError.decoding }
     for line in text.split(whereSeparator: \.isNewline) {
       guard line.hasPrefix("data:") else { continue }
       let payload = line.dropFirst("data:".count).trimmingCharacters(in: .whitespaces)
       if let payloadData = payload.data(using: .utf8),
-         let object = try? JSONSerialization.jsonObject(with: payloadData) as? [String: Any] {
-        return object
+         let response = try? JSONDecoder().decode(JSONRPCResponse.self, from: payloadData) {
+        return response
       }
     }
-    return nil
-  }
-
-  private static func prettyPrinted(_ object: [String: Any]) -> String {
-    guard let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]),
-          let string = String(data: data, encoding: .utf8) else {
-      return String(describing: object)
-    }
-    return string
+    throw MCPClientError.decoding
   }
 }

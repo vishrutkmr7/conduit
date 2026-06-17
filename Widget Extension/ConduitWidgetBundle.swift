@@ -1,3 +1,10 @@
+//
+//  ConduitWidgetBundle.swift
+//  Conduit Widget Extension
+//
+//  Created by Vishrut Jha on 6/16/26.
+//
+
 import WidgetKit
 import SwiftUI
 

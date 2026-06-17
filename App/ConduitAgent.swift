@@ -1,6 +1,13 @@
 import Foundation
 import FoundationModels
 
+//
+//  ConduitAgent.swift
+//  Conduit
+//
+//  Created by Vishrut Jha on 6/16/26.
+//
+
 enum ConduitAgentError: LocalizedError {
   case modelUnavailable(String)
   case noTools
@@ -64,7 +71,7 @@ enum ConduitAgent {
     guard !tools.isEmpty else { throw ConduitAgentError.noTools }
 
     let catalog = tools.prefix(20).map { tool in
-      let summary = tool.description.isEmpty ? "no description" : tool.description
+      let summary = tool.summary.isEmpty ? "no description" : tool.summary
       return "- \(tool.name): \(summary)"
     }.joined(separator: "\n")
 
@@ -109,7 +116,7 @@ private struct MCPBridgeTool: Tool {
     self.mcpName = tool.name
     self.name = MCPBridgeTool.sanitize(tool.name)
     self.client = client
-    var text = tool.description.isEmpty ? "Tool \(tool.name)." : tool.description
+    var text = tool.summary.isEmpty ? "Tool \(tool.name)." : tool.summary
     if let schema = tool.schema {
       text += "\nArguments JSON schema: \(schema)"
     }
@@ -123,10 +130,7 @@ private struct MCPBridgeTool: Tool {
   }
 
   func call(arguments: Arguments) async throws -> String {
-    let raw = arguments.argumentsJSON.trimmingCharacters(in: .whitespacesAndNewlines)
-    let json = raw.isEmpty ? "{}" : raw
-    let dict = (try? JSONSerialization.jsonObject(with: Data(json.utf8))) as? [String: Any] ?? [:]
-    let result = try await client.callTool(mcpName, arguments: dict)
+    let result = try await client.callTool(mcpName, argumentsJSON: arguments.argumentsJSON)
     return String(result.prefix(4000))
   }
 

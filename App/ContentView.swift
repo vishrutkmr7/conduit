@@ -1,104 +1,64 @@
 import SwiftUI
 
+//
+//  ContentView.swift
+//  Conduit
+//
+//  Created by Vishrut Jha on 6/16/26.
+//
+
 struct ContentView: View {
   @Environment(MCPServerStore.self) private var store
   @State private var isAddingServer = false
-  @State private var quickAddServer: KnownServer?
-  @State private var layout: ServerLayout = .grid
+  @State private var selectedServerID: MCPServer.ID?
 
-  private let columns = [GridItem(.adaptive(minimum: 160), spacing: 16, alignment: .top)]
+  private var selectedServer: MCPServer? {
+    guard let selectedServerID else { return store.servers.first }
+    return store.servers.first { $0.id == selectedServerID }
+  }
 
   var body: some View {
-    NavigationStack {
-      ScrollView {
-        VStack(spacing: 20) {
-          FeaturedServersStrip { quickAddServer = $0 }
-            .padding(.top, 8)
-
-          if store.servers.isEmpty {
-            emptyState
-          } else if layout == .grid {
-            LazyVGrid(columns: columns, alignment: .leading, spacing: 16) {
-              ForEach(store.servers) { server in
-                NavigationLink(value: server) {
-                  ServerCard(server: server, health: store.health(for: server), toolCount: store.toolCount(for: server))
-                }
-                .buttonStyle(.plain)
+    NavigationSplitView {
+      List(selection: $selectedServerID) {
+        if store.servers.isEmpty {
+          ContentUnavailableView {
+            Label("No Servers", systemImage: "point.3.connected.trianglepath.dotted")
+          } description: {
+            Text("Add an MCP server to expose its tools to Conduit, Siri, Shortcuts, widgets, and Spotlight.")
+          } actions: {
+            Button("Add Server", systemImage: "plus", action: showAddServer)
+          }
+        } else {
+          Section("Servers") {
+            ForEach(store.servers) { server in
+              NavigationLink(value: server.id) {
+                ServerListRow(server: server, health: store.health(for: server), toolCount: store.toolCount(for: server))
               }
             }
-            .padding(.horizontal)
-          } else {
-            LazyVStack(spacing: 12) {
-              ForEach(store.servers) { server in
-                NavigationLink(value: server) {
-                  ServerRow(server: server, health: store.health(for: server), toolCount: store.toolCount(for: server))
-                }
-                .buttonStyle(.plain)
-              }
-            }
-            .padding(.horizontal)
           }
         }
-        .padding(.bottom)
       }
       .navigationTitle("Conduit")
       .refreshable { await store.refreshHealth() }
       .task(id: store.servers) { await store.refreshHealth() }
-      .navigationDestination(for: MCPServer.self) { server in
-        ServerDetailView(server: server)
-      }
       .toolbar {
-        ToolbarItemGroup(placement: .primaryAction) {
-          if !store.servers.isEmpty {
-            Picker("Layout", selection: $layout) {
-              Label("Grid", systemImage: "square.grid.2x2").tag(ServerLayout.grid)
-              Label("List", systemImage: "list.bullet").tag(ServerLayout.list)
-            }
-            .pickerStyle(.segmented)
-            .labelsHidden()
-          }
-          Button("Add Server", systemImage: "plus") {
-            isAddingServer = true
-          }
-          .tint(.accentColor)
+        ToolbarItem(placement: .primaryAction) {
+          Button("Add Server", systemImage: "plus", action: showAddServer)
         }
       }
-      .sheet(isPresented: $isAddingServer) {
-        AddServerView()
+    } detail: {
+      if let selectedServer {
+        ServerDetailView(server: selectedServer)
+      } else {
+        ContentUnavailableView("Select a Server", systemImage: "server.rack", description: Text("Choose a server to inspect its tools and run tasks."))
       }
-      .sheet(item: $quickAddServer) { known in
-        NavigationStack {
-          ServerSetupView(known: known) { quickAddServer = nil }
-            .toolbar {
-              ToolbarItem(placement: .cancellationAction) {
-                Button("Cancel", systemImage: "xmark") { quickAddServer = nil }
-                  .labelStyle(.iconOnly)
-                  .tint(.accentColor)
-              }
-            }
-        }
-      }
+    }
+    .sheet(isPresented: $isAddingServer) {
+      AddServerView()
     }
   }
 
-  private var emptyState: some View {
-    ContentUnavailableView {
-      Label("No Servers Yet", systemImage: "point.3.connected.trianglepath.dotted")
-    } description: {
-      Text("Connect a remote MCP server so Siri and Apple Intelligence can use it for agentic tasks.")
-    } actions: {
-      Button("Add a Server", systemImage: "plus") {
-        isAddingServer = true
-      }
-      .buttonStyle(.glassProminent)
-      .controlSize(.large)
-      .tint(.teal)
-    }
-    .padding(.top, 48)
+  private func showAddServer() {
+    isAddingServer = true
   }
-}
-
-enum ServerLayout: String {
-  case grid
-  case list
 }

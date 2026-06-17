@@ -1,5 +1,12 @@
 import SwiftUI
 
+//
+//  ServerLogo.swift
+//  Conduit
+//
+//  Created by Vishrut Jha on 6/16/26.
+//
+
 /// Shows a provider's logo, falling back through a favicon for its host and then a
 /// tinted SF Symbol tile. The tile is also shown (redacted) while images load.
 struct ServerLogo: View {
@@ -7,9 +14,9 @@ struct ServerLogo: View {
   /// Host used to derive a favicon when no logo is set or the logo fails to load.
   var host: String?
   var symbol: String
-  var tint: String
+  var tint: String = "accent"
   var size: CGFloat
-  var cornerRadius: CGFloat
+  var cornerRadius: CGFloat = 10
 
   private var faviconURL: URL? {
     guard let host, !host.isEmpty else { return nil }
@@ -56,8 +63,8 @@ struct ServerLogo: View {
   private var symbolTile: some View {
     Image(systemName: symbol)
       .font(.system(size: size * 0.42))
-      .foregroundStyle(.white)
+      .foregroundStyle(.secondary)
       .frame(width: size, height: size)
-      .background(ServerTint.color(tint).gradient, in: .rect(cornerRadius: cornerRadius))
+      .background(.fill.tertiary, in: .rect(cornerRadius: cornerRadius))
   }
 }

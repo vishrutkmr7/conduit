@@ -1,28 +1,35 @@
 import SwiftUI
 
-/// Sheet presenting a gallery of known remote MCP servers plus a custom form.
+//
+//  AddServerView.swift
+//  Conduit
+//
+//  Created by Vishrut Jha on 6/16/26.
+//
+
 struct AddServerView: View {
   @Environment(MCPServerStore.self) private var store
   @Environment(\.dismiss) private var dismiss
-  @State private var mode: Mode = .featured
-
-  private let columns = [GridItem(.adaptive(minimum: 150), spacing: 14)]
 
   var body: some View {
     NavigationStack {
-      ScrollView {
-        Picker("Source", selection: $mode) {
-          Text("Featured").tag(Mode.featured)
-          Text("Custom").tag(Mode.custom)
+      List {
+        Section("Featured") {
+          ForEach(KnownServers.all) { known in
+            NavigationLink {
+              ServerSetupView(known: known) { dismiss() }
+            } label: {
+              KnownServerRow(known: known, isAdded: store.contains(known.urlString))
+            }
+          }
         }
-        .pickerStyle(.segmented)
-        .padding([.horizontal, .top])
 
-        switch mode {
-        case .featured:
-          featuredGrid
-        case .custom:
-          CustomServerForm { dismiss() }
+        Section("Custom") {
+          NavigationLink {
+            CustomServerForm { dismiss() }
+          } label: {
+            Label("Add Custom Server", systemImage: "server.rack")
+          }
         }
       }
       .navigationTitle("Add Server")
@@ -32,65 +39,8 @@ struct AddServerView: View {
       .toolbar {
         ToolbarItem(placement: .cancellationAction) {
           Button("Cancel", systemImage: "xmark") { dismiss() }
-            .labelStyle(.iconOnly)
-            .tint(.accentColor)
         }
       }
     }
-  }
-
-  private var featuredGrid: some View {
-    LazyVGrid(columns: columns, spacing: 14) {
-      ForEach(KnownServers.all) { known in
-        NavigationLink {
-          ServerSetupView(known: known) { dismiss() }
-        } label: {
-          KnownServerCard(known: known, isAdded: store.contains(known.urlString))
-        }
-        .buttonStyle(.plain)
-      }
-    }
-    .padding()
-  }
-
-  enum Mode: String {
-    case featured
-    case custom
-  }
-}
-
-private struct KnownServerCard: View {
-  let known: KnownServer
-  let isAdded: Bool
-
-  var body: some View {
-    VStack(alignment: .leading, spacing: 10) {
-      HStack {
-        ServerLogo(logoURLString: known.logoURLString, host: known.host, symbol: known.symbol, tint: known.tint, size: 40, cornerRadius: 10)
-        Spacer()
-        if isAdded {
-          Image(systemName: "checkmark.circle.fill")
-            .foregroundStyle(.green)
-            .accessibilityLabel("Already added")
-        }
-      }
-      Text(known.name)
-        .font(.headline)
-      Text(known.summary)
-        .font(.caption)
-        .foregroundStyle(.secondary)
-        .lineLimit(2, reservesSpace: true)
-        .frame(maxWidth: .infinity, alignment: .leading)
-      Label(known.authKind == .none ? "Open access" : "Needs sign in", systemImage: known.authKind.symbol)
-        .font(.caption2)
-        .foregroundStyle(.tertiary)
-    }
-    .padding(14)
-    .frame(maxWidth: .infinity, alignment: .leading)
-    .background(.background.secondary, in: .rect(cornerRadius: 16))
-    .overlay(
-      RoundedRectangle(cornerRadius: 16)
-        .strokeBorder(.separator.opacity(0.5))
-    )
   }
 }

@@ -1,7 +1,14 @@
 import Foundation
 
+//
+//  MCPServer.swift
+//  Conduit
+//
+//  Created by Vishrut Jha on 6/16/26.
+//
+
 /// How a remote MCP server expects the client to authenticate.
-enum MCPAuthKind: String, Codable, CaseIterable, Identifiable, Sendable {
+nonisolated enum MCPAuthKind: String, Codable, CaseIterable, Identifiable, Sendable {
   case none
   case oauth
   case apiKey
@@ -29,7 +36,7 @@ enum MCPAuthKind: String, Codable, CaseIterable, Identifiable, Sendable {
 }
 
 /// A remote MCP server the user has configured in Conduit.
-struct MCPServer: Codable, Identifiable, Hashable, Sendable {
+nonisolated struct MCPServer: Codable, Identifiable, Hashable, Sendable {
   var id: UUID
   var name: String
   /// Endpoint for the streamable-HTTP MCP transport.
@@ -39,8 +46,10 @@ struct MCPServer: Codable, Identifiable, Hashable, Sendable {
   /// Remote URL of the provider's logo, shown in place of the SF Symbol when it loads.
   var logoURLString: String?
   var authKind: MCPAuthKind
-  /// Stored credential (API key, bearer, or OAuth access token) when present.
+  /// In-memory credential loaded from Keychain, or decoded from the legacy JSON store during migration.
   var credential: String?
+  /// Stable Keychain account used for this server's credential.
+  var credentialReference: String?
   /// Name of the header used for `apiKey` auth (e.g. `Authorization`, `X-Api-Key`).
   var headerName: String
   var isCustom: Bool
@@ -55,6 +64,7 @@ struct MCPServer: Codable, Identifiable, Hashable, Sendable {
     logoURLString: String? = nil,
     authKind: MCPAuthKind = .none,
     credential: String? = nil,
+    credentialReference: String? = nil,
     headerName: String = "Authorization",
     isCustom: Bool = true,
     dateAdded: Date = .now
@@ -67,6 +77,7 @@ struct MCPServer: Codable, Identifiable, Hashable, Sendable {
     self.logoURLString = logoURLString
     self.authKind = authKind
     self.credential = credential
+    self.credentialReference = credentialReference
     self.headerName = headerName
     self.isCustom = isCustom
     self.dateAdded = dateAdded
@@ -84,5 +95,15 @@ struct MCPServer: Codable, Identifiable, Hashable, Sendable {
 
   var host: String {
     url?.host() ?? urlString
+  }
+
+  var keychainAccount: String {
+    credentialReference ?? "server-\(id.uuidString)"
+  }
+
+  var withoutCredential: MCPServer {
+    var copy = self
+    copy.credential = nil
+    return copy
   }
 }

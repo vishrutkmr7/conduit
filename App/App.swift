@@ -1,3 +1,10 @@
+//
+//  App.swift
+//  Conduit
+//
+//  Created by Vishrut Jha on 6/16/26.
+//
+
 import SwiftUI
 import AppIntents
 

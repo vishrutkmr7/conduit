@@ -1,3 +1,10 @@
+//
+//  KnownServers.swift
+//  Conduit
+//
+//  Created by Vishrut Jha on 6/16/26.
+//
+
 import Foundation
 
 /// A curated, well-known remote MCP server the user can add with one tap.

@@ -1,5 +1,12 @@
 import SwiftUI
 
+//
+//  CustomServerForm.swift
+//  Conduit
+//
+//  Created by Vishrut Jha on 6/16/26.
+//
+
 /// Form for adding a fully custom remote MCP server.
 struct CustomServerForm: View {
   @Environment(MCPServerStore.self) private var store
@@ -11,7 +18,6 @@ struct CustomServerForm: View {
   @State private var headerName = "Authorization"
   @State private var credential = ""
   @State private var symbol = "server.rack"
-  @State private var tint = "teal"
 
   private let symbols = ["server.rack", "cloud", "globe", "bolt.horizontal", "cpu", "wrench.and.screwdriver", "terminal", "shippingbox"]
 
@@ -20,107 +26,50 @@ struct CustomServerForm: View {
   }
 
   var body: some View {
-    VStack(spacing: 20) {
-      GroupBox {
-        VStack(spacing: 12) {
-          LabeledField("Name", text: $name, prompt: "My MCP Server")
-          LabeledField("Endpoint URL", text: $urlString, prompt: "https://example.com/mcp")
-            .textContentType(.URL)
-            #if os(iOS)
-            .keyboardType(.URL)
-            .textInputAutocapitalization(.never)
-            #endif
+    Form {
+      Section("Server") {
+        TextField("Name", text: $name, prompt: Text("My MCP Server"))
+        TextField("Endpoint URL", text: $urlString, prompt: Text("https://example.com/mcp"))
+          .textContentType(.URL)
+          #if os(iOS)
+          .keyboardType(.URL)
+          .textInputAutocapitalization(.never)
+          #endif
+          .autocorrectionDisabled()
+      }
+
+      Section("Authentication") {
+        Picker("Method", selection: $authKind) {
+          ForEach(MCPAuthKind.allCases) { kind in
+            Text(kind.label).tag(kind)
+          }
+        }
+        if authKind == .apiKey {
+          TextField("Header", text: $headerName, prompt: Text("X-Api-Key"))
             .autocorrectionDisabled()
         }
+        if authKind != .none {
+          SecureField(authKind == .oauth ? "Access token" : "Credential", text: $credential)
+        }
       }
 
-      GroupBox("Authentication") {
-        VStack(spacing: 12) {
-          Picker("Method", selection: $authKind) {
-            ForEach(MCPAuthKind.allCases) { kind in
-              Text(kind.label).tag(kind)
-            }
-          }
-          if authKind == .apiKey {
-            LabeledField("Header", text: $headerName, prompt: "X-Api-Key")
-              .autocorrectionDisabled()
-          }
-          if authKind != .none {
-            VStack(alignment: .leading, spacing: 6) {
-              Text(authKind == .oauth ? "Access token" : "Credential")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-              SecureField("Paste token", text: $credential)
-                .textFieldStyle(.roundedBorder)
-            }
+      Section("Appearance") {
+        Picker("Symbol", selection: $symbol) {
+          ForEach(symbols, id: \.self) { name in
+            Label(name, systemImage: name).tag(name)
           }
         }
       }
 
-      GroupBox("Appearance") {
-        VStack(alignment: .leading, spacing: 14) {
-          symbolPicker
-          tintPicker
-        }
-      }
-
-      Button {
-        add()
-      } label: {
-        Text("Add Server")
-          .frame(maxWidth: .infinity)
-      }
-      .buttonStyle(.borderedProminent)
-      .controlSize(.large)
-      .disabled(!isValid)
-    }
-    .padding()
-  }
-
-  private var symbolPicker: some View {
-    VStack(alignment: .leading, spacing: 8) {
-      Text("Symbol").font(.caption).foregroundStyle(.secondary)
-      LazyVGrid(columns: [GridItem(.adaptive(minimum: 44))], spacing: 10) {
-        ForEach(symbols, id: \.self) { name in
-          Button {
-            symbol = name
-          } label: {
-            Image(systemName: name)
-              .font(.title3)
-              .frame(width: 44, height: 44)
-              .background(symbol == name ? AnyShapeStyle(ServerTint.color(tint).opacity(0.25)) : AnyShapeStyle(.background.secondary), in: .rect(cornerRadius: 10))
-              .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                  .strokeBorder(symbol == name ? ServerTint.color(tint) : .clear, lineWidth: 2)
-              )
-          }
-          .buttonStyle(.plain)
-          .accessibilityLabel(name)
-        }
+      Section {
+        Button("Add Server", systemImage: "plus", action: add)
+          .disabled(!isValid)
       }
     }
-  }
-
-  private var tintPicker: some View {
-    VStack(alignment: .leading, spacing: 8) {
-      Text("Color").font(.caption).foregroundStyle(.secondary)
-      HStack {
-        ForEach(ServerTint.names, id: \.self) { name in
-          Button {
-            tint = name
-          } label: {
-            Circle()
-              .fill(ServerTint.color(name).gradient)
-              .frame(width: 28, height: 28)
-              .overlay(
-                Circle().strokeBorder(.primary, lineWidth: tint == name ? 2 : 0)
-              )
-          }
-          .buttonStyle(.plain)
-          .accessibilityLabel(name)
-        }
-      }
-    }
+    .navigationTitle("Custom Server")
+    #if os(iOS)
+    .navigationBarTitleDisplayMode(.inline)
+    #endif
   }
 
   private func add() {
@@ -132,7 +81,6 @@ struct CustomServerForm: View {
       name: name.trimmingCharacters(in: .whitespaces),
       urlString: trimmedURL,
       symbol: symbol,
-      tint: tint,
       logoURLString: logo,
       authKind: authKind,
       credential: credential.isEmpty ? nil : credential,
@@ -141,26 +89,5 @@ struct CustomServerForm: View {
     )
     store.add(server)
     onAdded()
-  }
-}
-
-/// A captioned text field used throughout the forms.
-struct LabeledField: View {
-  let title: String
-  @Binding var text: String
-  var prompt: String
-
-  init(_ title: String, text: Binding<String>, prompt: String) {
-    self.title = title
-    self._text = text
-    self.prompt = prompt
-  }
-
-  var body: some View {
-    VStack(alignment: .leading, spacing: 6) {
-      Text(title).font(.caption).foregroundStyle(.secondary)
-      TextField(prompt, text: $text)
-        .textFieldStyle(.roundedBorder)
-    }
   }
 }

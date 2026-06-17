@@ -1,3 +1,10 @@
+//
+//  ConduitWidget.swift
+//  Conduit Widget Extension
+//
+//  Created by Vishrut Jha on 6/16/26.
+//
+
 import WidgetKit
 import SwiftUI
 
@@ -63,7 +70,7 @@ struct ConduitProvider: TimelineProvider {
 
   private func current() -> ServerSnapshot {
     let health = ServerHealthStore.load()
-    let servers = MCPServerStorage.load().map {
+    let servers = MCPServerStorage.load(includeCredentials: false).map {
       ServerGlance(server: $0, health: health[$0.id]?.health ?? .unknown, toolCount: health[$0.id]?.toolCount)
     }
     return ServerSnapshot(date: .now, servers: servers)
@@ -119,7 +126,7 @@ struct ConduitWidgetView: View {
   private var header: some View {
     HStack(spacing: 6) {
       Image(systemName: "point.3.connected.trianglepath.dotted")
-        .foregroundStyle(.teal)
+        .foregroundStyle(.tint)
       Text("Conduit")
         .font(.caption.weight(.semibold))
       Spacer()
@@ -138,7 +145,7 @@ struct ConduitWidgetView: View {
       Text("No servers yet")
         .font(.headline)
       Text("Tap to connect one")
-        .font(.caption2)
+        .font(.caption)
         .foregroundStyle(.secondary)
       Spacer()
     }
@@ -166,18 +173,18 @@ struct ConduitWidgetView: View {
         .font(.caption.weight(.semibold))
       if entry.servers.isEmpty {
         Text("No servers connected")
-          .font(.caption2)
+          .font(.caption)
       } else {
         Text("\(entry.connected) of \(entry.servers.count) connected")
-          .font(.caption2)
+          .font(.caption)
         if entry.totalTools > 0 {
           Text("\(entry.totalTools) tools available")
-            .font(.caption2)
+            .font(.caption)
             .foregroundStyle(.secondary)
             .lineLimit(1)
         } else {
           Text(entry.servers.prefix(3).map(\.name).joined(separator: ", "))
-            .font(.caption2)
+            .font(.caption)
             .foregroundStyle(.secondary)
             .lineLimit(1)
         }
@@ -243,7 +250,7 @@ private struct ServerGrid: View {
       if showsLabels {
         VStack(spacing: 1) {
           Text(server.name)
-            .font(.caption2)
+            .font(.caption)
             .lineLimit(1)
           if server.health == .connected, let toolCount = server.toolCount {
             Text("\(toolCount) tools")
@@ -269,7 +276,7 @@ private struct ServerGrid: View {
             .foregroundStyle(.secondary)
         )
       if showsLabels {
-        Text("more").font(.caption2).foregroundStyle(.secondary)
+        Text("more").font(.caption).foregroundStyle(.secondary)
       }
     }
     .frame(height: showsLabels ? tileSize + 30 : tileSize)
@@ -283,7 +290,7 @@ private struct WidgetServerTile: View {
 
   var body: some View {
     RoundedRectangle(cornerRadius: size * 0.27)
-      .fill(ServerTint.color(glance.tint).gradient)
+      .fill(.tertiary)
       .frame(width: size, height: size)
       .overlay(
         Image(systemName: glance.symbol)
