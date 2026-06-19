@@ -21,13 +21,8 @@ struct ContentView: View {
     NavigationSplitView {
       List(selection: $selectedServerID) {
         if store.servers.isEmpty {
-          ContentUnavailableView {
-            Label("No Servers", systemImage: "point.3.connected.trianglepath.dotted")
-          } description: {
-            Text("Add an MCP server to expose its tools to Conduit, Siri, Shortcuts, widgets, and Spotlight.")
-          } actions: {
-            Button("Add Server", systemImage: "plus", action: showAddServer)
-          }
+          emptyServerState
+          popularServers
         } else {
           Section("Servers") {
             ForEach(store.servers) { server in
@@ -58,7 +53,29 @@ struct ContentView: View {
     }
   }
 
+  private var emptyServerState: some View {
+    Section {
+      ContentUnavailableView {
+        Label("Add Your First MCP Server", systemImage: "point.3.connected.trianglepath.dotted")
+      } description: {
+        Text("Connect an MCP server to expose its tools to Conduit, Siri, Shortcuts, widgets, and Spotlight.")
+      } actions: {
+        Button("Add Server", systemImage: "plus", action: showAddServer)
+      }
+    }
+  }
+
+  private var popularServers: some View {
+    FeaturedKnownServersSection(title: "Popular MCPs") { known in
+      ServerSetupView(known: known, onAdded: selectNewestServer)
+    }
+  }
+
   private func showAddServer() {
     isAddingServer = true
+  }
+
+  private func selectNewestServer() {
+    selectedServerID = store.servers.last?.id
   }
 }
