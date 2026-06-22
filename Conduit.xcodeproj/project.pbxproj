@@ -22,6 +22,7 @@
 		4A32B3BCD8CFA75AA13DC3C0 /* ServerListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501D402C71376EFD7F3E5B74 /* ServerListRow.swift */; };
 		4E87EF8F54FFBBC928AC311C /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88CFBFFE74F9B6B470F4EBA /* AppGroup.swift */; };
 		55422EE257834AE511D3C939 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6D26F1739007A0009E0920 /* ContentView.swift */; };
+		D2B4F6A809123456789ABCDE /* FeaturedKnownServersSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A3D5E7F90123456789ABCD /* FeaturedKnownServersSection.swift */; };
 		5DBE6507D9D4D3258DF58D69 /* MCPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D5333FA76138ACD51992AF /* MCPClientTests.swift */; };
 		5FC7A1B149C0F775E9DC0A42 /* ConduitIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021B1C7AFB92973F65F0925D /* ConduitIntents.swift */; };
 		615CAB6CDC3AD6DD084DEC8E /* MCPServerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80158018325EFCAA3919DBD5 /* MCPServerStore.swift */; };
@@ -116,6 +117,7 @@
 		501D402C71376EFD7F3E5B74 /* ServerListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerListRow.swift; sourceTree = "<group>"; };
 		509BC94553BCAD084E892393 /* AddServerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddServerView.swift; sourceTree = "<group>"; };
 		537297FB660C86F9070306F8 /* ServerDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDetailView.swift; sourceTree = "<group>"; };
+		C1A3D5E7F90123456789ABCD /* FeaturedKnownServersSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedKnownServersSection.swift; sourceTree = "<group>"; };
 		54156C1364A1B24B561ACA85 /* ConduitWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConduitWidget.swift; sourceTree = "<group>"; };
 		6ACEAF2583DD0C0C6EE4F712 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		6BA034748B505F5E85222597 /* CustomServerForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomServerForm.swift; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 				021B1C7AFB92973F65F0925D /* ConduitIntents.swift */,
 				4E6D26F1739007A0009E0920 /* ContentView.swift */,
 				6BA034748B505F5E85222597 /* CustomServerForm.swift */,
+				C1A3D5E7F90123456789ABCD /* FeaturedKnownServersSection.swift */,
 				E7EB510E86954D0E801085E8 /* HealthStatusLabel.swift */,
 				6D00402781E9134BD48A3209 /* IdeaButton.swift */,
 				6ACEAF2583DD0C0C6EE4F712 /* Info.plist */,
@@ -430,6 +433,7 @@
 				FF00D72A5E2E9F2625688ACC /* ConduitRepository.swift in Sources */,
 				55422EE257834AE511D3C939 /* ContentView.swift in Sources */,
 				8676756F21AC4941CA1EA82D /* CustomServerForm.swift in Sources */,
+				D2B4F6A809123456789ABCDE /* FeaturedKnownServersSection.swift in Sources */,
 				3F68B4EB51E6442E321C5FD5 /* HealthStatusLabel.swift in Sources */,
 				8C28F9D852156F917431A7E8 /* IdeaButton.swift in Sources */,
 				0A95C9559F3C4F146D83D396 /* JSONValue.swift in Sources */,

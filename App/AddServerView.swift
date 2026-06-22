@@ -8,20 +8,13 @@ import SwiftUI
 //
 
 struct AddServerView: View {
-  @Environment(MCPServerStore.self) private var store
   @Environment(\.dismiss) private var dismiss
 
   var body: some View {
     NavigationStack {
       List {
-        Section("Featured") {
-          ForEach(KnownServers.all) { known in
-            NavigationLink {
-              ServerSetupView(known: known) { dismiss() }
-            } label: {
-              KnownServerRow(known: known, isAdded: store.contains(known.urlString))
-            }
-          }
+        FeaturedKnownServersSection { known in
+          ServerSetupView(known: known) { dismiss() }
         }
 
         Section("Custom") {
